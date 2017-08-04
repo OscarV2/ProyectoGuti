@@ -75,7 +75,7 @@ elseif ($functionName === 'guardar-admi-demanda') {
 
 }
 
-elseif ($functionName === 'guardar-admi-demanda') {
+elseif ($functionName === 'guardar-citacion') {
      
     try {
         $id = filter_input(INPUT_POST, 'id');
@@ -94,7 +94,7 @@ elseif ($functionName === 'guardar-admi-demanda') {
         $data[] = filter_input(INPUT_POST, 'conceptoCuenta');
         $data[] = filter_input(INPUT_POST, 'optionsCuentaPagada');
         
-        guardarAdmiDemanda($id, $data);
+        guardarCitacion($id, $data);
         echo 'success';
     } catch (Exception $exc) {
         ChromePhp::log('excepcion '.$exc->getTraceAsString());
