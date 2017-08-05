@@ -29,10 +29,61 @@
         <script src="assets/vendor/moment.min.js"></script>
         <script src="assets/vendor/bootstrap-datetimepicker.min.js"></script>
         <script>
+           var id;
             $(document).ready(function () {
                 setFechasNuevo();
                 setNumberItems();
+                $("#form_emplazamiento").submit(function (e) {
+
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_emplazamiento").serialize() + '&functionName=guardar-empl&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
             });
+
+            function buscar() {
+                var cedula = $("#inputBuscar").val();
+                if (cedula === null || cedula === '') {
+
+                    $("#inputBuscar").focus();
+                } else if ($("#resultBusqueda").is(':empty')) {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: 'PhpFiles/Functions.php',
+                        data: {
+                            functionName: 'buscarProceso',
+                            cedula: $("#inputBuscar").val()
+                        },
+                        success: function (data) {
+                            var json = JSON.parse(data);
+                            $("#resultBusqueda").append(json.tabla);
+                            id = json.id;
+                            console.log(id);
+                        }
+                    });
+                }
+            }
+            function mostrarModal() {
+                $("#myModal").modal('show');
+            }
+
+            function volver() {
+                window.location.replace("index.php");
+            }
         </script>
     </head>
     <body>
@@ -150,42 +201,34 @@
 
                                     <section id="resultBusqueda"></section>
 
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Solicitud ante el juzgado</label>
-                                                    <div class='input-group date' id='datetimepicker4'>                                        
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
+                                    <form id="form_emplazamiento">
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Solicitud ante el juzgado</label>
+                                            <div class='input-group date' id='datetimepicker4'>                                        
+                                                <input type='text' class="form-control" name="fecha_sol_juzgado"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
                                             </div>
-
                                         </div>
                                     </div>
 
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Aviso que ordena emplazamiento</label>
-                                                    <div class='input-group date' id='datetimepicker2'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>                                            
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Aviso que ordena emplazamiento</label>
+                                            <div class='input-group date' id='datetimepicker2'>
+                                                <input type='text' class="form-control" name="fecha_aviso_ordena"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div>                                            
 
                                     <div class="col-md-6">
                                         <label for="sel_orden_emplazamiento">Orden de emplazar</label>
-                                        <select class="selectpicker form-control" id="sel_orden_emplazamiento">
+                                        <select class="selectpicker form-control" id="sel_orden_emplazamiento" name="orden_emplazar">
                                             <option>Periodico</option>
                                             <option>Radiodifusora</option>
                                         </select> 
@@ -194,142 +237,101 @@
                                     <div id="opcionesOrdenEmplazar" class="col-md-4">
 
                                         <label class="fancy-radio">
-                                            <input type="radio" name="opcionesOrdenEmplazar">
+                                            <input type="radio" name="opcionesOrdenEmplazar" value="El Pilon">
                                             <span><i></i>El Pilon</span>
                                         </label>
                                         <label class="fancy-radio">
-                                            <input type="radio" name="opcionesOrdenEmplazar">
+                                            <input type="radio" name="opcionesOrdenEmplazar" value="El Tiempo">
                                             <span><i></i>El Tiempo</span>
                                         </label>
 
                                         <label class="fancy-radio">
-                                            <input type="radio" name="opcionesOrdenEmplazar">
+                                            <input type="radio" name="opcionesOrdenEmplazar" value="El Heraldo">
                                             <span><i></i>El Heraldo</span>
                                         </label>
                                         <label class="fancy-radio">
-                                            <input type="radio" name="opcionesOrdenEmplazar">
+                                            <input type="radio" name="opcionesOrdenEmplazar" value="Vanguardia">
                                             <span><i></i>Vanguardia</span>
                                         </label>
                                         <label class="fancy-radio">
-                                            <input type="radio" name="opcionesOrdenEmplazar">
+                                            <input type="radio" name="opcionesOrdenEmplazar" value="Otro">
                                             <span><i></i>Otro</span>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" name="otro_medio">
                                         </label>
                                     </div>    
 
-                                    <div class="col-md-4">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Cuenta de cobro No.</label>
-                                            <input type="number" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Publicacion del edicto</label>
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Publicacion del edicto</label>
+                                            <div class='input-group date' id='datetimepicker6'>
+                                                <input type='text' class="form-control" name="fecha_pub_edicto"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
                                             </div>
-                                            <script type="text/javascript">
-                                                $(function () {
-                                                    $('#datetimepicker6').datetimepicker();
-                                                });
-                                            </script>
                                         </div>
                                     </div>
 
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Presentación ante el juzgado</label>
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>                            
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Presentación ante el juzgado</label>
+                                            <div class='input-group date' id='datetimepicker6'>
+                                                <input type='text' class="form-control" name="fecha_pre_juzgado"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>  
-
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Presentación ante el juzgado</label>
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>                            
-                                        </div>
-                                    </div>
+                                    </div>                            
 
                                     <div class="col-md-4">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Solicitud de inclusión en el R.N.E.</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control" name="sol_inclusion">
                                         </div>
                                     </div>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Fecha de inclusion en el R.N.E.</label>
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>                            
+
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Fecha de inclusion en el R.N.E.</label>
+                                            <div class='input-group date' >
+                                                <input type='text' class="form-control" name="fecha_sol_rne"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class='col-sm-6'>
-                                                <div class="form-group">
-                                                    <label>Posesion del Curador</label>
-                                                    <div class='input-group date' id='datetimepicker6'>
-                                                        <input type='text' class="form-control" />
-                                                        <span class="input-group-addon">
-                                                            <span class="glyphicon glyphicon-calendar"></span>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>                            
+                                    </div>                            
+
+                                    <div class='col-sm-6'>
+                                        <div class="form-group">
+                                            <label>Posesion del Curador</label>
+                                            <div class='input-group date'>
+                                                <input type='text' class="form-control" name="fecha_posesion_curador"/>
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </div>                            
 
                                     <div class="col-md-4">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Solicitud de nombramiento del curador.</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control" name="sol_nom_curador">
                                         </div>
                                     </div>
 
                                     <div class="col-md-4">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Contestación del curador.</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control" name="contes_curador">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="comment">Observaciones</label>
-                                            <textarea class="form-control" rows="5" id="comment"></textarea>
+                                            <textarea class="form-control" rows="5" id="comment" name="observaciones"></textarea>
                                         </div>
                                     </div>                                   
 
@@ -338,7 +340,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Cuenta No.:</label>
-                                            <input type="email" class="form-control">
+                                            <input type="text" class="form-control" name="cuenta_numero">
                                         </div>
                                     </div> 
 
@@ -346,7 +348,7 @@
                                         <div class="form-group">
                                             <label>Fecha de elaboracion de cuenta</label>
                                             <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" />
+                                                <input type='text' class="form-control" name="fecha_elab_cuenta"/>
                                                 <span class="input-group-addon">
                                                     <span class="glyphicon glyphicon-calendar"></span>
                                                 </span>
@@ -357,27 +359,35 @@
                                     <div class="col-md-2">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Valor</label>
-                                            <input type="text" class="form-control numero" value="0.0">
+                                            <input type="text" class="form-control numero" name="cuenta_valor" value="0.0">
                                         </div>
                                     </div>
 
-                                    <div id="opcionesEntregaAvisoNotificador" class="col-md-12">
+                                    <div class="col-md-3">
+                                        <div class="form-group label-floating">
+                                            <label class="control-label">Concepto</label>
+                                            <input type="text" class="form-control" name="conceptoCuenta" value="Aviso" readonly>
+                                        </div>
+                                    </div> 
+
+                                    <div class="col-md-12">
                                         <label class="control-label">Pagada:</label>
                                         <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion">
+                                            <input type="radio" name="optionsCuentaPagada" value="Si">
                                             <span><i></i>Si</span>
                                         </label>
                                         <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion">
+                                            <input type="radio" name="optionsCuentaPagada" value="No">
                                             <span><i></i>No</span>
                                         </label>                                       
                                     </div>    
 
                                     <div class="col-md-6">
                                         <p class="demo-button">
-                                            <button id="btn_add_nuevo" type="button" class="btn btn-primary btn-lg">Guardar</button>
+                                            <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
                                         </p>    
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

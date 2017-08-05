@@ -35,14 +35,14 @@
             $(document).ready(function () {
                 setFechasNuevo();
                 setNumberItems();
-                $("#form_admi_demanda").submit(function (e) {
+                $("#form_aviso").submit(function (e) {
 
                     e.preventDefault();
                     if (id !== undefined) {
                         $.ajax({
                             type: 'POST',
                             url: 'PhpFiles/Functions.php',
-                            data: $("#form_admi_demanda").serialize() + '&functionName=guardar-admi-demanda&id=' + id,
+                            data: $("#form_aviso").serialize() + '&functionName=guardar-aviso&id=' + id,
                             success: function (data) {
                                 console.log(data);
                                 if (data === 'success') {
@@ -77,10 +77,8 @@
                             console.log(id);
                         }
                     });
-
                 }
             }
-
             function mostrarModal() {
                 $("#myModal").modal('show');
             }
@@ -205,132 +203,133 @@
                                     <section id="resultBusqueda"></section>
 
                                     <form id="form_aviso">
-                                    <div id="opcionesEntregaAvisoNotificador" class="col-md-12">
-                                        <label class="control-label">Se entrega al notificador:</label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion" checked="checked">
-                                            <span><i></i>Si</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion">
-                                            <span><i></i>No</span>
-                                        </label>                                       
-                                    </div>
+                                        <div id="opcionesEntregaAvisoNotificador" class="col-md-12">
+                                            <label class="control-label">Se entrega al notificador:</label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="optionsEntregaAvisoNoti" checked="checked" value="true">
+                                                <span><i></i>Si</span>
+                                            </label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="optionsEntregaAvisoNoti" value="false">
+                                                <span><i></i>No</span>
+                                            </label>                                       
+                                        </div>
 
-                                    <div id="opcionesEntregaAvisoNotificador" class="col-md-12">
-                                        <label class="control-label">Se entrega al demandado:</label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion" checked="checked">
-                                            <span><i></i>Si</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion">
-                                            <span><i></i>No</span>
-                                        </label>                                       
-                                    </div>
+                                        <div id="opcionesEntregaAvisoNotificador" class="col-md-12">
+                                            <label class="control-label">Se entrega al demandado:</label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="entregaAvisoDemnadado" checked="checked" value="Si">
+                                                <span><i></i>Si</span>
+                                            </label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="entregaAvisoDemnadado" value="No">
+                                                <span><i></i>No</span>
+                                            </label>                                       
+                                        </div>
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha inicio notificacion</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class="col-md-4">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Guía No.:</label>
+                                                <input type="text" class="form-control" name="guia">
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Guía No.:</label>
-                                            <input type="email" class="form-control">
-                                        </div>
-                                    </div> 
-
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha de novedad</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha inicio notificacion</label>
+                                                <div class='input-group date'>
+                                                    <input type='text' class="form-control" name="fecha_inicio_noti"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha de presentación ante el juzgado</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" />
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha de novedad</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_novedad"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>                                   
 
-                                    <div class="col-md-8">
-                                        <label for="comment">Observaciones</label>
-                                        <textarea class="form-control" rows="4" id="comment"></textarea>
-                                    </div>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha de presentación ante el juzgado</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_pre_juzgado"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>                                   
 
-                                    <h4>Cuenta de cobro</h4>
-
-                                    <div class="col-md-3">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Cuenta No.:</label>
-                                            <input type="email" class="form-control" name="cuenta_numero">
+                                        <div class="col-md-8">
+                                            <label for="comment">Observaciones</label>
+                                            <textarea class="form-control" rows="4" id="comment" name="observs_fecha_pre_juzgado"></textarea>
                                         </div>
-                                    </div> 
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha de elaboracion de cuenta</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="fecha_elab_cuenta"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <h4>Cuenta de cobro</h4>
+
+                                        <div class="col-md-3">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Cuenta No.:</label>
+                                                <input type="text" class="form-control" name="cuenta_numero">
+                                            </div>
+                                        </div> 
+
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha de elaboracion de cuenta</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_elab_cuenta"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div class="col-md-2">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Valor</label>
+                                                <input type="text" class="form-control numero" name="cuenta_valor" value="0.0">
                                             </div>
                                         </div>
-                                    </div> 
 
-                                    <div class="col-md-2">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Valor</label>
-                                            <input type="text" class="form-control numero" value="0.0">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12">
-                                        <label class="control-label">Pagada:</label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion" value="Si">
-                                            <span><i></i>Si</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="optionsEntregaCitacion" value="No">
-                                            <span><i></i>No</span>
-                                        </label>                                       
-                                    </div>
-                                    
-                                    <div class="col-md-3">
+                                        <div class="col-md-3">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Concepto</label>
                                                 <input type="text" class="form-control" name="conceptoCuenta" value="Aviso" readonly>
                                             </div>
                                         </div> 
-                                    <br><br><br><br>
 
-                                    <div class="col-md-6">
-                                        <p class="demo-button">
-                                            <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
-                                        </p>    
-                                    </div>
-</form>
+                                        <div class="col-md-12">
+                                            <label class="control-label">Pagada:</label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="optionsCuentaPagada" value="Si">
+                                                <span><i></i>Si</span>
+                                            </label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="optionsCuentaPagada" value="No">
+                                                <span><i></i>No</span>
+                                            </label>                                       
+                                        </div>
+
+                                        <br><br><br><br>
+
+                                        <div class="col-md-6">
+                                            <p class="demo-button">
+                                                <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                            </p>    
+                                        </div>
+                                    </form>
                                 </div>
                             </div> 
                         </div>

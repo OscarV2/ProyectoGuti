@@ -103,31 +103,97 @@ function guardarCitacion($id, $data) {
         $citacion -> fecha_novedad = $data[3];
         $citacion -> fecha_pre_juzgado = $data[4];
         $citacion -> observs_fecha_pre_juzgado = $data[5];
-        $citacion -> cuenta_numero = $data[6];
-        $citacion -> fecha_elab_cuenta = $data[7];
         
-        $citacion -> cuenta_valor = $data[8];
-        $citacion -> conceptoCuenta = $data[9];
-        $citacion -> optionsCuentaPagada = $data[10];
+        $cuenta = R::dispense('cuenta');
+        $cuenta -> cuenta_numero = $data[6];
+        $cuenta -> fecha_elab_cuenta = $data[7];        
+        $cuenta -> cuenta_valor = $data[8];
+        $cuenta -> conceptoCuenta = $data[9];
+        $cuenta -> optionsCuentaPagada = $data[10];
         
+        $citacion -> cuenta = $cuenta;
         $citacion -> demanda = $demanda;
-        
         R::store($citacion);
+        R::store($cuenta);
         desconectar();
     } else {        
        ChromePhp::log('vdemanda es nula');
     }
 }
 
+function guardarAviso($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $demanda = R::findOne('demanda', 'proceso_id = ' . $proceso -> id);
+    $citacion = R::findOne('citacion', 'demanda_id = ' . $demanda -> id);
+    
+    if ($demanda != NULL && $citacion != NULL) {
+        
+        $aviso = R::dispense('aviso');
+        $aviso -> entrega_aviso             = $data[0];
+        $aviso -> guia                      = $data[1];
+        $aviso -> fecha_inicio_noti         = $data[2];
+        $aviso -> fecha_novedad             = $data[3];
+        $aviso -> fecha_pre_juzgado         = $data[4];
+        $aviso -> observs_fecha_pre_juzgado = $data[5];
+        
+        $cuenta = R::dispense('cuenta');
+        $cuenta -> cuenta_numero            = $data[6];
+        $cuenta -> fecha_elab_cuenta        = $data[7];        
+        $cuenta -> cuenta_valor             = $data[8];
+        $cuenta -> conceptoCuenta           = $data[9];
+        $cuenta -> optionsCuentaPagada      = $data[10];
+        $aviso -> entrega_aviso_deman       = $data[11];
+        $aviso -> cuenta = $cuenta;
+        $aviso -> demanda = $demanda;
+        R::store($aviso);
+        R::store($cuenta);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
 
-/*
- * function ($cedula) {
-
-  }
-  function ($cedula) {
-
-  }
- */
+function guardarEmplazamiento($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $demanda = R::findOne('demanda', 'proceso_id = ' . $proceso -> id);
+    $citacion = R::findOne('citacion', 'demanda_id = ' . $demanda -> id);
+    
+    if ($demanda != NULL && $citacion != NULL) {
+        
+        $aviso = R::dispense('aviso');
+        $aviso -> entrega_aviso             = $data[0];
+        $aviso -> guia                      = $data[1];
+        $aviso -> fecha_inicio_noti         = $data[2];
+        $aviso -> fecha_novedad             = $data[3];
+        $aviso -> fecha_pre_juzgado         = $data[4];
+        $aviso -> observs_fecha_pre_juzgado = $data[5];        
+        $aviso -> fecha_novedad             = $data[6];
+        $aviso -> fecha_pre_juzgado         = $data[7];
+        $aviso -> observs_fecha_pre_juzgado = $data[8];
+               
+        $aviso -> fecha_novedad             = $data[9];
+        $aviso -> fecha_pre_juzgado         = $data[10];
+        
+        
+        $cuenta = R::dispense('cuenta');
+        $cuenta -> cuenta_numero            = $data[6];
+        $cuenta -> fecha_elab_cuenta        = $data[7];        
+        $cuenta -> cuenta_valor             = $data[8];
+        $cuenta -> conceptoCuenta           = $data[9];
+        $cuenta -> optionsCuentaPagada      = $data[10];
+        $aviso -> entrega_aviso_deman       = $data[11];
+        
+        $aviso -> cuenta = $cuenta;
+        $aviso -> demanda = $demanda;
+        R::store($aviso);
+        R::store($cuenta);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
 
 function desconectar() {
     R::close();

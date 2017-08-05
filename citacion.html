@@ -43,7 +43,7 @@
                         $.ajax({
                             type: 'POST',
                             url: 'PhpFiles/Functions.php',
-                            data: $("#form_admi_demanda").serialize() + '&functionName=guardar-citacion&id=' + id,
+                            data: $("#form_citacion").serialize() + '&functionName=guardar-citacion&id=' + id,
                             success: function (data) {
                                 console.log(data);
                                 if (data === 'success') {
@@ -223,7 +223,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Guía No.:</label>
-                                            <input type="email" class="form-control" name="guia">
+                                            <input type="number" class="form-control" name="guia">
                                         </div>
                                     </div>  
 
@@ -271,7 +271,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Cuenta No.:</label>
-                                            <input type="email" class="form-control" name="cuenta_numero">
+                                            <input type="text" class="form-control" name="cuenta_numero">
                                         </div>
                                     </div> 
 
