@@ -39,55 +39,23 @@
 
                     e.preventDefault();
                     if (id !== undefined) {
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: $("#form_admi_demanda").serialize() + '&functionName=guardar-admi-demanda&id=' + id,
-                        success: function (data) {
-                            console.log(data);
-                            if (data === 'success') {
-                                mostrarModal();
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_admi_demanda").serialize() + '&functionName=guardar-admi-demanda&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
                             }
-                        }
-                    });
+                        });
                     } else {
                         alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
                     }
                 });
             });
-            
-            function buscar() {
-                var cedula = $("#inputBuscar").val();
-                if (cedula === null || cedula === '') {
-                    
-                    $("#inputBuscar").focus();
-                } else if ($("#resultBusqueda").is(':empty')) {
-                    
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: {
-                            functionName: 'buscarProceso',
-                            cedula: $("#inputBuscar").val()
-                        },
-                        success: function (data) {
-                            var json = JSON.parse(data);
-                            $("#resultBusqueda").append(json.tabla);
-                            id = json.id;
-                            console.log(id);
-                        }
-                    });
-                    
-                }
-            }
-            
-            function mostrarModal() {
-                $("#myModal").modal('show');
-            }
 
-            function volver() {
-                window.location.replace("index.php");
-            }
         </script>
     </head>
     <body>
@@ -174,28 +142,28 @@
                                     <h3>Admision Demanda</h3>
 
                                     <!-- Modal content-->
-                                <div id="myModal" class="modal fade" role="dialog">
-                                    <div class="modal-dialog">
+                                    <div id="myModal" class="modal fade" role="dialog">
+                                        <div class="modal-dialog">
 
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                <h2 class="modal-title">Nuevo Proceso creado exitosamente</h2>
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h2 class="modal-title">Nuevo Proceso creado exitosamente</h2>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Click en Ok para volver al inicio.</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <p class="demo-button">
+                                                        <button  class="btn btn-primary btn-lg" onclick="volver()"><i class="fa fa-plus-square"></i>  Ok</button>
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                <p>Click en Ok para volver al inicio.</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <p class="demo-button">
-                                                    <button  class="btn btn-primary btn-lg" onclick="volver()"><i class="fa fa-plus-square"></i>  Ok</button>
-                                                </p>
-                                            </div>
+
                                         </div>
-
                                     </div>
-                                </div>
-                                    
+
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <input id="inputBuscar" type="text"  class="form-control" placeholder="Buscar Proceso...">
@@ -207,100 +175,99 @@
 
                                     <section id="resultBusqueda"></section>
                                     <form id="form_admi_demanda">
-                                    <div id="opcionesDemanda" class="col-md-12">
-                                        <label class="control-label">La demanda ha sido:</label>
+                                        <div id="opcionesDemanda" class="col-md-12">
+                                            <label class="control-label">La demanda ha sido:</label>
 
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="opcionesDemanda" value="Admitida" checked="checked">
-                                            <span><i></i>Admitida</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="opcionesDemanda" value="Inadmitida">
-                                            <span><i></i>Inadmitida</span>
-                                        </label>
-                                        <label class="fancy-radio">
-                                            <input type="radio" name="opcionesDemanda" value="Rechazada">
-                                            <span><i></i>Rechazada</span>
-                                        </label>
-                                    </div>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="opcionesDemanda" value="Admitida" checked="checked">
+                                                <span><i></i>Admitida</span>
+                                            </label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="opcionesDemanda" value="Inadmitida">
+                                                <span><i></i>Inadmitida</span>
+                                            </label>
+                                            <label class="fancy-radio">
+                                                <input type="radio" name="opcionesDemanda" value="Rechazada">
+                                                <span><i></i>Rechazada</span>
+                                            </label>
+                                        </div>
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha de novedad</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="fecha_novedad"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha de novedad</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_novedad"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="col-md-6">
-                                        <label for="sel3">Juzgado</label>
-                                        <select class="form-control" id="sel3" name="juzgado">
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE LA PAZ</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE BECERRIL</option>                      
-                                            <option>JUZGADO SEGUNDO PROMISCUO MUNICIPAL DE CHIRIGUANA</option>
-                                            <option>JUZGADO PRIMERO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                            <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE EJECUCIÓN DE SENTENCIA DE VALLEDUPAR</option>                       
-                                            <option>JUZGADO QUINTO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                            <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE EL COPEY, CESAR</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE SAN DIEGO</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
-                                            <option>JUZGADO PRIMERO PROMISCUO MUNICIPAL DE CODAZZI</option>                        
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE BOSCONIA</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE SAN ALBERTO</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
-                                            <option>JUZGADO PROMISCUO MUNICIPAL DE LA JAGUA DE IBIRICO</option>
-                                        </select>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="sel3">Juzgado</label>
+                                            <select class="form-control" id="sel3" name="juzgado">
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA PAZ</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BECERRIL</option>                      
+                                                <option>JUZGADO SEGUNDO PROMISCUO MUNICIPAL DE CHIRIGUANA</option>
+                                                <option>JUZGADO PRIMERO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE EJECUCIÓN DE SENTENCIA DE VALLEDUPAR</option>                       
+                                                <option>JUZGADO QUINTO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE EL COPEY, CESAR</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN DIEGO</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
+                                                <option>JUZGADO PRIMERO PROMISCUO MUNICIPAL DE CODAZZI</option>                        
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BOSCONIA</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN ALBERTO</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
+                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA JAGUA DE IBIRICO</option>
+                                            </select>
+                                        </div>
 
-                                    <div class="col-md-6">
-                                        <label for="comment">Observaciones</label>
-                                        <textarea class="form-control" rows="4" id="comment" name="observs_novedad"></textarea>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="comment">Observaciones</label>
+                                            <textarea class="form-control" rows="4" id="comment" name="observs_novedad"></textarea>
+                                        </div>
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha auto medida cautelar</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="fecha_medida_cautelar"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha auto medida cautelar</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_medida_cautelar"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="comment">Observaciones</label>
-                                        <textarea class="form-control" rows="4" id="comment" name="observs_med_cautelar"></textarea>
-                                    </div>
+                                        <div class="col-md-6">
+                                            <label for="comment">Observaciones</label>
+                                            <textarea class="form-control" rows="4" id="comment" name="observs_med_cautelar"></textarea>
+                                        </div>
 
-                                    <div class='col-sm-4'>
-                                        <div class="form-group">
-                                            <label>Fecha de mandamiento de pago</label>
-                                            <div class='input-group date' id='datetimepicker1'>
-                                                <input type='text' class="form-control" name="fecha_man_pago"/>
-                                                <span class="input-group-addon">
-                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                </span>
+                                        <div class='col-sm-4'>
+                                            <div class="form-group">
+                                                <label>Fecha de mandamiento de pago</label>
+                                                <div class='input-group date' id='datetimepicker1'>
+                                                    <input type='text' class="form-control" name="fecha_man_pago"/>
+                                                    <span class="input-group-addon">
+                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="comment">Observaciones</label>
-                                        <textarea class="form-control" rows="4" id="comment" name="observs_fecha_man_pago"></textarea>
-                                    </div>
-                                    <br><br><br><br>
-
-                                    <div class="col-md-6">
-                                        <p class="demo-button">
-                                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
-                                        </p>    
-                                    </div>
-</form>
+                                        <div class="col-md-6">
+                                            <label for="comment">Observaciones</label>
+                                            <textarea class="form-control" rows="4" id="comment" name="observs_fecha_man_pago"></textarea>
+                                        </div>
+                                        <br><br><br><br>
+                                        <div class="col-md-6">
+                                            <p class="demo-button">
+                                                <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                            </p>    
+                                        </div>
+                                    </form>
                                 </div>
                             </div> 
                         </div>

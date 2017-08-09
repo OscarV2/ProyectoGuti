@@ -177,25 +177,22 @@ elseif ($functionName === 'guardar-sentencia') {
      
     try {
         $id = filter_input(INPUT_POST, 'id');
-        $data[] = filter_input(INPUT_POST, 'optionsEntregaAvisoNoti');
-     
-        $data[] = filter_input(INPUT_POST, 'guia');
-        $data[] = filter_input(INPUT_POST, 'fecha_inicio_noti');  
+        $data[] = filter_input(INPUT_POST, 'fecha_sol_adelante');     
+        $data[] = filter_input(INPUT_POST, 'observs_sol_adelante');
         
-        $data[] = filter_input(INPUT_POST, 'fecha_novedad');
-        $data[] = filter_input(INPUT_POST, 'fecha_pre_juzgado');
-        $data[] = filter_input(INPUT_POST, 'observs_fecha_pre_juzgado');
+        $data[] = filter_input(INPUT_POST, 'fecha_auto_adelante');  
+        $data[] = filter_input(INPUT_POST, 'observs_auto_adelante');
+        
+        $data[] = filter_input(INPUT_POST, 'fecha_estado_endeuda');
+        $data[] = filter_input(INPUT_POST, 'observs_estado_endeudamiento');
         
         $data[] = filter_input(INPUT_POST, 'cuenta_numero');
         $data[] = filter_input(INPUT_POST, 'fecha_elab_cuenta');
-        $data[] = filter_input(INPUT_POST, 'cuenta_valor');
-        
+        $data[] = filter_input(INPUT_POST, 'cuenta_valor');        
         $data[] = filter_input(INPUT_POST, 'conceptoCuenta');
         $data[] = filter_input(INPUT_POST, 'optionsCuentaPagada');
         
-           $data[] = filter_input(INPUT_POST, 'entregaAvisoDemnadado');
-        
-           guardarAviso($id, $data);
+        guardarSentencia($id, $data);
         echo 'success';
     } catch (Exception $exc) {
         ChromePhp::log('excepcion '.$exc->getTraceAsString());
@@ -232,28 +229,3 @@ elseif ($functionName === 'guardar-liquidacion') {
         echo 'Error';
     }
 }
-
-/*
- * elseif ($functionName === 'guardar-admi-demanda') {
-     
-    try {
-        $id = filter_input(INPUT_POST, 'id');
-        $data[] = filter_input(INPUT_POST, 'optionsEntregaCitacion');
-        $data[] = filter_input(INPUT_POST, 'guia');
-        $data[] = filter_input(INPUT_POST, '');  
-        
-        $data[] = filter_input(INPUT_POST, '');
-        $data[] = filter_input(INPUT_POST, '');
-        $data[] = filter_input(INPUT_POST, '');
-        
-        $data[] = filter_input(INPUT_POST, '');
-        $data[] = filter_input(INPUT_POST, '');
-        
-        guardarAdmiDemanda($id, $data);
-        echo 'success';
-    } catch (Exception $exc) {
-        ChromePhp::log('excepcion '.$exc->getTraceAsString());
-        echo 'Error';
-    }
-}
- */

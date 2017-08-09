@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
     <head>
         <title>Tables | Klorofil - Free Bootstrap Dashboard Template</title>
         <meta charset="utf-8">
@@ -126,7 +125,6 @@
                     <div class="container-fluid">
                         <h3 class="page-title">Detalles</h3>
                         <div class="row">
-                            
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading" role="tab" id="headingOne">

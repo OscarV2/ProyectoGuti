@@ -53,37 +53,6 @@
                     }
                 });
             });
-
-            function buscar() {
-                var cedula = $("#inputBuscar").val();
-                if (cedula === null || cedula === '') {
-
-                    $("#inputBuscar").focus();
-                } else if ($("#resultBusqueda").is(':empty')) {
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: {
-                            functionName: 'buscarProceso',
-                            cedula: $("#inputBuscar").val()
-                        },
-                        success: function (data) {
-                            var json = JSON.parse(data);
-                            $("#resultBusqueda").append(json.tabla);
-                            id = json.id;
-                            console.log(id);
-                        }
-                    });
-                }
-            }
-            function mostrarModal() {
-                $("#myModal").modal('show');
-            }
-
-            function volver() {
-                window.location.replace("index.php");
-            }
         </script>
     </head>
     <body>
@@ -168,7 +137,6 @@
                             <div class="panel panel-primary">
                                 <div class="panel-heading"><h3>Emplazamiento</h3></div>
                                 <div class="panel-body">                              
-
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <input id="inputBuscar" type="text" value="" class="form-control" placeholder="Buscar Proceso...">
@@ -235,7 +203,6 @@
                                     </div>
 
                                     <div id="opcionesOrdenEmplazar" class="col-md-4">
-
                                         <label class="fancy-radio">
                                             <input type="radio" name="opcionesOrdenEmplazar" value="El Pilon">
                                             <span><i></i>El Pilon</span>
@@ -366,7 +333,7 @@
                                     <div class="col-md-3">
                                         <div class="form-group label-floating">
                                             <label class="control-label">Concepto</label>
-                                            <input type="text" class="form-control" name="conceptoCuenta" value="Aviso" readonly>
+                                            <input type="text" class="form-control" name="conceptoCuenta" value="Emplazamiento" readonly>
                                         </div>
                                     </div> 
 

@@ -22,7 +22,6 @@
         <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
         <link rel="icon" type="image/png" sizes="96x96" href="assets/img/favicon.png">
 
-
         <script src="assets/vendor/jquery/jquery.min.js"></script>
         <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
         <script src="assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
@@ -60,37 +59,6 @@
                 });
             });
 
-            function buscar() {
-                var cedula = $("#inputBuscar").val();
-                if (cedula === null || cedula === '') {
-
-                    $("#inputBuscar").focus();
-                } else if ($("#resultBusqueda").is(':empty')) {
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: {
-                            functionName: 'buscarProceso',
-                            cedula: $("#inputBuscar").val()
-                        },
-                        success: function (data) {
-                            var json = JSON.parse(data);
-                            $("#resultBusqueda").append(json.tabla);
-                            id = json.id;
-                            console.log(id);
-                        }
-                    });
-
-                }
-            }
-            function mostrarModal() {
-                $("#myModal").modal('show');
-            }
-
-            function volver() {
-                window.location.replace("index.php");
-            }
         </script>
     </head>
     <body>

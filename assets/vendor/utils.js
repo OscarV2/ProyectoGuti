@@ -55,9 +55,8 @@ function setNuevaObligacion() {
 
     $("#btn_add_obligacion").click(function (e) {
 
-        console.log('hola como estas22222');
         e.preventDefault();
-        
+
         if (obligations < 10) {
             obligations++;
             $("#form_obligacion").append('<div><div class="col-md-3">' +
@@ -87,7 +86,7 @@ function setNuevaObligacion() {
                     '<button class="remove_field btn btn-primary">Eliminar</button></div>'
                     );
         }
-        
+
     });
     $("#form_obligacion").on("click", ".remove_field", function (e) { //user click on remove text
         e.preventDefault();
@@ -96,6 +95,38 @@ function setNuevaObligacion() {
     });
 }
 
+function buscar() {
+    var cedula = $("#inputBuscar").val();
+    if (cedula === null || cedula === '') {
+
+        $("#inputBuscar").focus();
+    } else if ($("#resultBusqueda").is(':empty')) {
+
+        $.ajax({
+            type: 'POST',
+            url: 'PhpFiles/Functions.php',
+            data: {
+                functionName: 'buscarProceso',
+                cedula: $("#inputBuscar").val()
+            },
+            success: function (data) {
+                var json = JSON.parse(data);
+                $("#resultBusqueda").append(json.tabla);
+                id = json.id;
+                console.log(id);
+            }
+        });
+
+    }
+}
+
+function mostrarModal() {
+    $("#myModal").modal('show');
+}
+
+function volver() {
+    window.location.replace("index.php");
+}
 
 /* 
  * To change this license header, choose License Headers in Project Properties.

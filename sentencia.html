@@ -31,61 +31,29 @@
         <script src="assets/vendor/utils.js"></script>
 
         <script>
-            var clientes = 1;
-            var obligations = 1;
-            $(document).ready(function () {
-
+           $(document).ready(function () {
                 setFechasNuevo();
                 setNumberItems();
-
                 $("#form_sentencia").submit(function (e) {
 
                     e.preventDefault();
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: $("#form_elab_demanda").serialize() + '&functionName=guardar-elab-demanda&id=' + id,
-                        success: function (data) {
-                            console.log(data);
-                            if (data === 'success') {
-                                mostrarModal();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_sentencia").serialize() + '&functionName=guardar-sentencia&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
                             }
-                        }
-                    });
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
                 });
-            });
-
-            function buscar() {
-                var cedula = $("#inputBuscar").val();
-                if (cedula === null || cedula === '') {
-
-                    $("#inputBuscar").focus();
-                } else if ($("#resultBusqueda").is(':empty')) {
-
-                    $.ajax({
-                        type: 'POST',
-                        url: 'PhpFiles/Functions.php',
-                        data: {
-                            functionName: 'buscarProceso',
-                            cedula: $("#inputBuscar").val()
-                        },
-                        success: function (data) {
-                            var json = JSON.parse(data);
-                            $("#resultBusqueda").append(json.tabla);
-                            id = json.id;
-                            console.log(id);
-                        }
-                    });
-
-                }
-            }
-            function mostrarModal() {
-                $("#myModal").modal('show');
-            }
-
-            function volver() {
-                window.location.replace("index.php");
-            }
+            });            
         </script>
     </head>
     <body>
@@ -100,13 +68,6 @@
                     <div class="navbar-btn">
                         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
                     </div>
-                    <form class="navbar-form navbar-left">
-                        <div class="input-group">
-                            <input type="text" value="" class="form-control" placeholder="Buscar Proceso...">
-                            <span class="input-group-btn"><button type="button" class="btn btn-primary">Buscar</button></span>
-                        </div>
-                    </form>
-
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right">											
                             <li class="dropdown">
@@ -164,7 +125,6 @@
                 <!-- MAIN CONTENT -->
                 <div class="main-content">
                     <div class="container-fluid">
-
                         <div class="row">           
                             <div class="panel">
                                 <div class="panel-heading"><h3>Sentencia</h3></div>                               
@@ -172,7 +132,7 @@
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <input id="inputBuscar" type="text" value="" class="form-control" placeholder="Buscar Proceso...">
-                                            <span class="input-group-btn"><button type="button" class="btn btn-primary"><b>Buscar</b></button></span>
+                                            <span class="input-group-btn"><button onclick="buscar()" type="button" class="btn btn-primary"><b>Buscar</b></button></span>
                                         </div>
                                     </div>
                                     <br><br><br><br>
@@ -309,7 +269,6 @@
 
                                     </form>
                                 </div>
-
                             </div>
                         </div>
                     </div>
