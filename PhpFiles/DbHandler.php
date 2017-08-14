@@ -231,37 +231,140 @@ function guardarSentencia($id, $data) {
 function guardarLiquidacion($id, $data) {
     $proceso = R::load('proceso', $id);
     $demanda = R::findOne('demanda', 'proceso_id = ' . $proceso -> id);
-    $citacion = R::findOne('citacion', 'demanda_id = ' . $demanda -> id);
     
-    if ($demanda != NULL && $citacion != NULL) {
+    if ($demanda != NULL) {
         
-        $aviso = R::dispense('aviso');
-        $aviso -> entrega_aviso             = $data[0];
-        $aviso -> guia                      = $data[1];
-        $aviso -> fecha_inicio_noti         = $data[2];
-        $aviso -> fecha_novedad             = $data[3];
-        $aviso -> fecha_pre_juzgado         = $data[4];
-        $aviso -> observs_fecha_pre_juzgado = $data[5];        
-        $aviso -> fecha_novedad             = $data[6];
-        $aviso -> fecha_pre_juzgado         = $data[7];
-        $aviso -> observs_fecha_pre_juzgado = $data[8];
-               
-        $aviso -> fecha_novedad             = $data[9];
-        $aviso -> fecha_pre_juzgado         = $data[10];
+        $liquidacion = R::dispense('liquidacion');
+        $liquidacion -> fecha_pre_juzgado         = $data[0];
+        $liquidacion -> valor                     = $data[1];
+        $liquidacion -> observaciones             = $data[2];
         
+        $liquidacion -> proceso = $proceso;
+        R::store($liquidacion);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+
+function guardarTrasladoCredito($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
         
-        $cuenta = R::dispense('cuenta');
-        $cuenta -> cuenta_numero            = $data[6];
-        $cuenta -> fecha_elab_cuenta        = $data[7];        
-        $cuenta -> cuenta_valor             = $data[8];
-        $cuenta -> conceptoCuenta           = $data[9];
-        $cuenta -> optionsCuentaPagada      = $data[10];
-        $aviso -> entrega_aviso_deman       = $data[11];
+        $traslado = R::dispense('trasladocredito');
+        $traslado -> fecha_traslado   = $data[0];
+        $traslado -> observaciones    = $data[1];
+                
+        $traslado -> liquidacion = $liquidacion;
+        R::store($traslado);
         
-        $aviso -> cuenta = $cuenta;
-        $aviso -> demanda = $demanda;
-        R::store($aviso);
-        R::store($cuenta);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+
+function guardarAutoLiqui($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
+        
+        $autoLiqui = R::dispense('autoliqui');
+        $autoLiqui -> fecha_auto_aprueba   = $data[0];
+        $autoLiqui -> valor_aprobado       = $data[1];
+        $autoLiqui -> opcionesApruebaLiqui = $data[2];
+        $autoLiqui -> observaciones        = $data[3];
+        
+        $autoLiqui -> liquidacion = $liquidacion;
+        R::store($autoLiqui);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+
+function guardarEmbargo($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
+        
+        $embargo = R::dispense('embargo');
+        $embargo -> fecha_inscripcion   = $data[0];
+        $embargo -> observaciones    = $data[1];
+                
+        $embargo -> liquidacion = $liquidacion;
+        R::store($embargo);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+
+function guardarDiliSecuestro($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
+        
+        $diliSecuestro = R::dispense('dilisecuestro');
+        $diliSecuestro -> fecha_solicitud        = $data[0];
+        $diliSecuestro -> fecha_auto_diligencia  = $data[1];
+        $diliSecuestro -> despacho_comisorio     = $data[2];
+        $diliSecuestro -> comisionanA            = $data[3];
+                
+        $diliSecuestro -> liquidacion = $liquidacion;
+        R::store($diliSecuestro);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+
+function guardarAvaluo($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
+        
+        $avaluo = R::dispense('avaluo');
+        $avaluo -> fecha_sol_avaluo   = $data[0];
+        $avaluo -> perito   = $data[1];
+        $avaluo -> cedula   = $data[2];
+        $avaluo -> fecha_aprobacion_avaluo = $data[3];
+        $avaluo -> juzgado  = $data[4];
+      
+        $avaluo -> observaciones    = $data[5];
+                
+        $avaluo -> liquidacion = $liquidacion;
+        R::store($avaluo);
+        desconectar();
+    } else {        
+       ChromePhp::log('vdemanda es nula');
+     //  throw Exception();
+    }
+}
+function guardarRemate($id, $data) {
+    $proceso = R::load('proceso', $id);
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso -> id);
+    
+    if ($liquidacion != NULL) {
+        
+        $remate = R::dispense('remate');
+        $remate -> fecha_traslado    = $data[0];
+        $remate -> fecha_auto_remate = $data[1];
+        $remate -> observaciones     = $data[2];
+                
+        $remate -> liquidacion = $liquidacion;
+        R::store($remate);
         desconectar();
     } else {        
        ChromePhp::log('vdemanda es nula');

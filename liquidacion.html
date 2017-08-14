@@ -33,14 +33,122 @@
             $(document).ready(function () {
                 setFechasNuevo();
                 setNumberItems();
-                $("#form_aviso").submit(function (e) {
-
+                setAccordion();
+                $("#form_pres_liqui").submit(function (e) {
                     e.preventDefault();
                     if (id !== undefined) {
                         $.ajax({
                             type: 'POST',
                             url: 'PhpFiles/Functions.php',
-                            data: $("#form_aviso").serialize() + '&functionName=guardar-aviso&id=' + id,
+                            data: $("#form_pres_liqui").serialize() + '&functionName=guardar-liquidacion&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_traslado_credito").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_traslado_credito").serialize() + '&functionName=guardar-traslado-credito&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_auto_liquidacion").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_auto_liquidacion").serialize() + '&functionName=guardar-auto-liquidacion&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_embargo").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_embargo").serialize() + '&functionName=guardar-embargo&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_dili_secuestro").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_dili_secuestro").serialize() + '&functionName=guardar-dili-secuestro&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_avaluo").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_avaluo").serialize() + '&functionName=guardar-avaluo&id=' + id,
+                            success: function (data) {
+                                console.log(data);
+                                if (data === 'success') {
+                                    mostrarModal();
+                                }
+                            }
+                        });
+                    } else {
+                        alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
+                    }
+                });
+                $("#form_remate").submit(function (e) {
+                    e.preventDefault();
+                    if (id !== undefined) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'PhpFiles/Functions.php',
+                            data: $("#form_remate").serialize() + '&functionName=guardar-remate&id=' + id,
                             success: function (data) {
                                 console.log(data);
                                 if (data === 'success') {
@@ -136,7 +244,6 @@
                             <div class="panel">
                                 <div class="panel-body">
                                     <h3 class="page-title">Elaboración de Liquidacion del Credito</h3> 
-
                                     <div class="col-md-4">
                                         <div class="input-group">
                                             <input id="inputBuscar" type="text" value="" class="form-control" placeholder="Buscar Proceso...">
@@ -144,10 +251,8 @@
                                         </div>
                                     </div>
                                     <br><br><br><br>
-
                                     <div id="myModal" class="modal fade" role="dialog">
                                         <div class="modal-dialog">
-
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
@@ -163,10 +268,8 @@
                                                     </p>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
                                     <section id="resultBusqueda"></section>
                                     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                         <div class="panel panel-primary">
@@ -180,32 +283,35 @@
                                             </div>
                                             <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                                 <div class="panel-body">
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Fecha de presentación ante el juzgado</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                    <form id="form_pres_liqui">
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Fecha de presentación ante el juzgado</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_pre_juzgado"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <div class="form-group label-floating">
+                                                        <div class="col-md-4 form-group">
                                                             <label class="control-label">Valor</label>
-                                                            <input type="text" class="form-control numero" value="0.0">
+                                                            <input type="text" class="form-control numero" value="0.0" name="valor_liquidacion">
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label for="comment">Observaciones</label>
-                                                        <textarea class="form-control" rows="4" id="comment"></textarea>
-                                                    </div>
+                                                        <div class="col-md-12">
+                                                            <label for="comment">Observaciones</label>
+                                                            <textarea class="form-control" rows="4" name="observaciones"></textarea>
+                                                        </div>
+                                                        <p class="demo-button col-md-6">
+                                                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="panel panel-primary">
-                                            <div class="panel-heading" role="tab" id="headingTwo">
+                                            <div class="panel-heading" role="tab">
                                                 <h4 class="panel-title">
                                                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                                         <span class="glyphicon glyphicon-plus" ></span>
@@ -215,21 +321,26 @@
                                             </div>
                                             <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
                                                 <div class="panel-body">
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Traslado de liquidación</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                    <form id="form_traslado_credito">
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Traslado de liquidación</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_traslado"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label for="comment">Observaciones</label>
-                                                        <textarea class="form-control" rows="4" id="comment"></textarea>
-                                                    </div>
+                                                        <div class="col-md-12">
+                                                            <label for="comment">Observaciones</label>
+                                                            <textarea class="form-control" rows="4" name="observaciones"></textarea>
+                                                        </div>
+                                                        <p class="demo-button col-md-6">
+                                                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
@@ -241,41 +352,46 @@
                                                         Auto que aprueba liquidación
                                                     </a>
                                                 </h4>
-                                            </div>
+                                            </div>                                            
                                             <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
                                                 <div class="panel-body">
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Auto que aprueba liquidación</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                    <form id="form_auto_liquidacion">
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Auto que aprueba liquidación</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_auto_aprueba"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="form-group label-floating">
-                                                            <label class="control-label">Valor Aprobado</label>
-                                                            <input type="text" class="form-control numero" value="0.0">
+                                                        <div class="col-md-2">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Valor Aprobado</label>
+                                                                <input type="text" class="form-control numero" value="0.0" name="valor_aprobado">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <label for="comment">Observaciones</label>
-                                                        <textarea class="form-control" rows="4" id="comment"></textarea>
-                                                    </div>
-                                                    <div id="opcionesApruebaLiqui" class="col-md-12">
-                                                        <label class="control-label">Aprueba Liquidación</label>
-                                                        <label class="fancy-radio">
-                                                            <input type="radio" name="opcionesApruebaLiqui">
-                                                            <span><i></i>Si</span>
-                                                        </label>
-                                                        <label class="fancy-radio">
-                                                            <input type="radio" name="opcionesApruebaLiqui">
-                                                            <span><i></i>No</span>
-                                                        </label>                                       
-                                                    </div>
+                                                        <div class="col-md-12">
+                                                            <label for="comment">Observaciones</label>
+                                                            <textarea class="form-control" rows="4" name="observaciones"></textarea>
+                                                        </div>
+                                                        <div id="opcionesApruebaLiqui" class="col-md-12">
+                                                            <label class="control-label">Aprueba Liquidación</label>
+                                                            <label class="fancy-radio">
+                                                                <input type="radio" name="opcionesApruebaLiqui" value="Si">
+                                                                <span><i></i>Si</span>
+                                                            </label>
+                                                            <label class="fancy-radio">
+                                                                <input type="radio" name="opcionesApruebaLiqui" value="No">
+                                                                <span><i></i>No</span>
+                                                            </label>                                       
+                                                        </div>
+                                                        <p class="demo-button col-md-6">
+                                                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
                                                 </div>
                                             </div> 
                                         </div>
@@ -290,77 +406,85 @@
                                             </div>
                                             <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
                                                 <div class="panel-body">
-                                                    <h4 class="col-md-12">Inscripcion del embargo</h4>
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Fecha de Inscripción</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                    <form id="form_embargo">
+                                                        <h4 class="col-md-12">Inscripcion del embargo</h4>
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Fecha de Inscripción</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_inscripcion"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div> 
-                                                    <div class="col-md-12">
-                                                        <label for="comment">Observaciones</label>
-                                                        <textarea class="form-control" rows="4" id="comment"></textarea>
-                                                    </div> 
-                                                </div>
+                                                        </div> 
+                                                        <div class="col-md-12">
+                                                            <label for="comment">Observaciones</label>
+                                                            <textarea class="form-control" rows="4" name="observaciones"></textarea>
+                                                        </div> 
+                                                        <p class="demo-button col-md-6">
+                                                            <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
+                                                </div>    
                                             </div> 
                                         </div>
                                         <div class="panel panel-primary">
-                                            <div class="panel-heading" role="tab">
+                                            <div class="panel-heading" role="tab" id="headingFive">
                                                 <h4 class="panel-title">
                                                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseTwo">
                                                         <span class="glyphicon glyphicon-plus" ></span>
                                                         Diligencia de Secuestro
                                                     </a>
                                                 </h4>
-                                            </div>
-                                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            </div>                                          
+                                            <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
                                                 <div class="panel-body">
-
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Fecha de solicitud</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                    <form id="form_dili_secuestro">
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Fecha de solicitud</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_solicitud"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>                                                        
+                                                        </div>
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Auto que aprueba diligencia</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_auto_diligencia"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
-                                                        </div>                                                        
-                                                    </div>
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Auto que aprueba diligencia</label>
-                                                            <div class='input-group date' id='datetimepicker1'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Despacho comisorio</label>
+                                                                <input type="text" class="form-control" name="despacho_comisorio">
                                                             </div>
                                                         </div>
-
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
-                                                            <label class="control-label">Despacho comisorio</label>
-                                                            <input type="text" class="form-control" name="sol_inclusion">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="control-label">Comisionan a:</label>
+                                                                <input type="text" class="form-control" name="comisionanA">
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
-                                                            <label class="control-label">Comisionan a:</label>
-                                                            <input type="text" class="form-control" name="sol_inclusion">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                        <p class="demo-button col-md-6">
+                                                            <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
+                                                </div>       
                                             </div>
                                         </div>
                                         <div class="panel panel-primary">
-                                            <div class="panel-heading" role="tab">
+                                            <div class="panel-heading" role="tab" id="headingSix">
                                                 <h4 class="panel-title">
                                                     <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseTwo">
                                                         <span class="glyphicon glyphicon-plus" ></span>
@@ -368,87 +492,87 @@
                                                     </a>
                                                 </h4>
                                             </div>
-                                            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
                                                 <div class="panel-body">
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Solicitud d avaluo al banco</label>
-                                                            <div class='input-group date'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
-                                                            </div>
-                                                        </div>                                                        
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
+                                                    <form id="form_avaluo">
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Solicitud de avaluo al banco</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_sol_avaluo"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>                                                        
+                                                        </div>
+                                                        <div class="col-md-6">                                                  
                                                             <label class="control-label">Perito Evaluador (Nombres y Apellidos)</label>
-                                                            <input type="text" class="form-control" name="sol_inclusion">
+                                                            <input type="text" class="form-control" name="perito">                                                    
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class="form-group label-floating">
+                                                        <div class="col-md-6">                                                        
                                                             <label class="control-label">Cedula</label>
-                                                            <input type="text" class="form-control" name="sol_inclusion">
+                                                            <input type="text" class="form-control" name="cedula">                                                        
                                                         </div>
-                                                    </div>
-                                                    <div class='col-sm-4'>
-                                                        <div class="form-group">
-                                                            <label>Aprobacion de avaluo</label>
-                                                            <div class='input-group date'>
-                                                                <input type='text' class="form-control" />
-                                                                <span class="input-group-addon">
-                                                                    <span class="glyphicon glyphicon-calendar"></span>
-                                                                </span>
+                                                        <div class='col-sm-4'>
+                                                            <div class="form-group">
+                                                                <label>Aprobacion de avaluo</label>
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_aprobacion_avaluo"/>
+                                                                    <span class="input-group-addon">
+                                                                        <span class="glyphicon glyphicon-calendar"></span>
+                                                                    </span>
+                                                                </div>
                                                             </div>
                                                         </div>
-
-                                                    </div>
-                                                    
-                                                    <div class="col-md-6">
-                                            <label for="sel3">Juzgado</label>
-                                            <select class="form-control" id="sel3" name="juzgado">
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA PAZ</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BECERRIL</option>                      
-                                                <option>JUZGADO SEGUNDO PROMISCUO MUNICIPAL DE CHIRIGUANA</option>
-                                                <option>JUZGADO PRIMERO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE EJECUCIÓN DE SENTENCIA DE VALLEDUPAR</option>                       
-                                                <option>JUZGADO QUINTO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE VALLEDUPAR</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE EL COPEY, CESAR</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN DIEGO</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
-                                                <option>JUZGADO PRIMERO PROMISCUO MUNICIPAL DE CODAZZI</option>                        
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BOSCONIA</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN ALBERTO</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
-                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA JAGUA DE IBIRICO</option>
-                                            </select>
-                                        </div>
-
-
+                                                        <div class="col-md-6">
+                                                            <label for="sel3">Juzgado</label>
+                                                            <select class="form-control" id="sel3" name="juzgado">
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA PAZ</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BECERRIL</option>                      
+                                                                <option>JUZGADO SEGUNDO PROMISCUO MUNICIPAL DE CHIRIGUANA</option>
+                                                                <option>JUZGADO PRIMERO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE EJECUCIÓN DE SENTENCIA DE VALLEDUPAR</option>                       
+                                                                <option>JUZGADO QUINTO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                                <option>JUZGADO SEGUNDO CIVIL MUNICIPAL DE VALLEDUPAR</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE EL COPEY, CESAR</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN DIEGO</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
+                                                                <option>JUZGADO PRIMERO PROMISCUO MUNICIPAL DE CODAZZI</option>                        
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE BOSCONIA</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE SAN ALBERTO</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE CURUMANI</option>
+                                                                <option>JUZGADO PROMISCUO MUNICIPAL DE LA JAGUA DE IBIRICO</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <label for="comment">Observaciones</label>
+                                                            <textarea class="form-control" rows="4" id="comment" name="observaciones"></textarea>
+                                                        </div> 
+                                                        <p class="demo-button col-md-6">
+                                                            <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="panel panel-primary">
-                                            <div class="panel-heading" role="tab">
+                                            <div class="panel-heading" role="tab" id="headingSeven">
                                                 <h4 class="panel-title">
-                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseTwo">
+                                                    <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
                                                         <span class="glyphicon glyphicon-plus" ></span>
                                                         Remate
                                                     </a>
                                                 </h4>
                                             </div>
-                                            <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                            <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
                                                 <div class="panel-body">
-                                                    <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-
+                                                    <form id="form_remate">              
                                                         <div class='col-sm-4'>
                                                             <div class="form-group">
                                                                 <label>Fecha de solicitud</label>
-                                                                <div class='input-group date' id='datetimepicker1'>
-                                                                    <input type='text' class="form-control" />
+                                                                <div class='input-group date'>
+                                                                    <input type='text' class="form-control" name="fecha_solicitud"/>
                                                                     <span class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                                     </span>
@@ -459,7 +583,7 @@
                                                             <div class="form-group">
                                                                 <label>Auto que ordena el remate</label>
                                                                 <div class='input-group date' id='datetimepicker1'>
-                                                                    <input type='text' class="form-control" />
+                                                                    <input type='text' class="form-control" name="fecha_auto_remate"/>
                                                                     <span class="input-group-addon">
                                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                                     </span>
@@ -469,14 +593,16 @@
                                                         </div> 
                                                         <div class="col-md-12">
                                                             <label for="comment">Observaciones</label>
-                                                            <textarea class="form-control" rows="4" id="comment"></textarea>
-                                                        </div>
-
-                                                    </div>
+                                                            <textarea class="form-control" rows="4" name="observaciones"></textarea>
+                                                        </div>      
+                                                        <p class="demo-button col-md-6">
+                                                            <button id="btn_add_nuevo" type="submit" class="btn btn-primary btn-lg">Guardar</button>
+                                                        </p>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>                                        
                                 </div>
                             </div>
                         </div>  

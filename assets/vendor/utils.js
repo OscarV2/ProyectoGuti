@@ -128,6 +128,20 @@ function volver() {
     window.location.replace("index.php");
 }
 
+function setAccordion() {
+                   $("#accordion").on("hidden.bs.collapse", function (e) {
+                    $(e.target).closest(".panel-primary")
+                            .find(".panel-heading span")
+                            .removeClass("glyphicon glyphicon-minus")
+                            .addClass("glyphicon glyphicon-plus");
+                });
+                $("#accordion").on("shown.bs.collapse", function (e) {
+                    $(e.target).closest(".panel-primary")
+                            .find(".panel-heading span")
+                            .removeClass("glyphicon glyphicon-plus")
+                            .addClass("glyphicon glyphicon-minus");
+                });
+}
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
