@@ -6,14 +6,12 @@ include 'ChromePhp.php';
 $functionName = filter_input(INPUT_POST, 'functionName');
 if ($functionName === 'buscarProceso') {
 
-
     $cedula = filter_input(INPUT_POST, 'cedula');
     try {
         $resultado = buscarProcesoCedula($cedula);
     } catch (Exception $exc) {
         ChromePhp::log($exc->getTraceAsString());
     }
-
 
     $tabla = '<table class="table"><caption>Proceso</caption>' .
             '<thead>' .
@@ -302,3 +300,22 @@ elseif ($functionName === 'guardar-remate') {
         echo 'Error';
     }
 }
+
+elseif ($functionName === 'buscar_todo') {
+$cedula = filter_input(INPUT_POST, 'cedula');
+    echo json_encode(detalles($cedula));
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

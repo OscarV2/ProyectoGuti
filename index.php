@@ -27,10 +27,16 @@
         <script src="assets/scripts/klorofil-common.js"></script>
 
         <script>
-            function irDetalles() {
-    if () {
-   
-}
+      //      $("#form_buscar_todo").submit(function (e) {
+                
+                //e.preventDefault();
+              //  sessionStorage.setItem('cedula',  $("#in_cedula").val());
+              //  window.location.replace("detalles.php");
+          //  });
+           function irDetalles() {
+      sessionStorage.setItem('cedula',  $("#in_cedula").val());
+                window.location.replace("detalles.php");
+                console.log('me fui');
 }
         </script>
     </head>
@@ -46,13 +52,12 @@
                     <div class="navbar-btn">
                         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
                     </div>
-                    <form class="navbar-form navbar-left">
+                    <!--form id="form_buscar_todo" class="navbar-form navbar-left"-->
                         <div class="input-group">
-                            <input type="text" value="" class="form-control" placeholder="Buscar Proceso...">
-                            <span class="input-group-btn"><button onclick="ver()" type="button" class="btn btn-primary">Buscar</button></span>
+                            <input id="in_cedula" type="text" name="cedula" value="" class="form-control" placeholder="Buscar Proceso..." required>
+                            <span class="input-group-btn"><button  onclick="irDetalles()" class="btn btn-primary">Buscar</button></span>
                         </div>
-                    </form>
-
+                    <!--/form-->
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right">											
                             <li class="dropdown">

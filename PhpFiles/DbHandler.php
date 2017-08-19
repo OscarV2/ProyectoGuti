@@ -372,6 +372,37 @@ function guardarRemate($id, $data) {
     }
 }
 
+function detalles($cedula){
+    
+    $cliente = R::findOne('cliente',  'cedula = ' . $cedula);
+    $proceso = R::load('proceso',  $cliente['proceso_id']);
+    $demanda = R::findOne('demanda',  'proceso_id = ' . $proceso -> id);
+    
+    $resultado = array('nombre' => $cliente -> nombre, 'apellido' => $cliente -> apellido, 
+        'cedula'  => $cliente -> cedula , 'direccion' => $cliente ->direccion, 'tipoProceso' => $proceso ->clase,
+        'numero' => $proceso ->numero,  'fecha_recibe_docs' => $demanda -> fecha_recibe_docs, 
+        'fecha_elab_demanda' => $demanda -> fecha_elab_demanda,
+        'fecha_presenta_demanda' => $demanda -> fecha_presenta_demanda, 'observaciones' => $demanda -> observacion);
+    
+    if ($demanda  === NULL) {
+        
+        $demanda = 'No existe actuacion';
+    } 
+    else {
+        $admiteDemanda  =  R::findOne('admidemanda',  'demanda_id = ' . $demanda -> id);
+        $resultado['fecha_novedad'] = $admiteDemanda ->fecha_novedad ;
+        $resultado['fecha_medida_cautelar'] = $admiteDemanda -> fecha_medida_cautelar ;
+        $resultado['fecha_mandamiento_pago'] = $admiteDemanda -> fecha_man_pago;
+        $resultado['observs_med_cautelar'] = $admiteDemanda ->observs_med_cautelar ;
+        $resultado['observs_fecha_man_pago'] = $admiteDemanda -> observs_fecha_man_pago;
+        $resultado['estado_demanda'] = $admiteDemanda -> opciones_demanda;
+        $resultado['juzgado'] = $admiteDemanda -> juzgado;
+    }
+   
+    desconectar();
+    return $resultado;
+}
+
 function desconectar() {
     R::close();
 }

@@ -41,10 +41,42 @@
                             .removeClass("glyphicon glyphicon-plus")
                             .addClass("glyphicon glyphicon-minus");
                 });
+                
+                
+                $.ajax({  
+                    type: 'POST',
+                    url: 'PhpFiles/Functions.php',
+                    data : 'cedula='+sessionStorage.getItem('cedula')+'&functionName=buscar_todo',
+                    success: function (data) {
+                        result = JSON.parse(data);
+                        $("#proceso").append( '<table class="table"><caption>Proceso</caption>' +
+            '<thead>' +
+            '<tr>' +
+            '<th><b>Numero</b></th><th>ACJ-' + result.numero+ '</th></tr></thead><tbody><tr><td><b>Cliente</b></td>' +
+            '<td>' + result.nombre +'  '  +result.apellido +'</td></tr><tr><td><b>Cedula</b></td><td>' +result.cedula+ '</td></tr><tr><td><b>Clase de Proceso</b></td>' +
+            '<td>' + result.tipoProceso  + '</td></tr></tbody></table>');
+                    
+                    $("#cuerpoDemanda").append(
+                            '<table class="table">' +
+            '<thead>' +
+            '<tr>' +
+            '<th><b>Fecha de recepcion de documentos</b></th><th>' + result.fecha_recibe_docs+ '</th></tr></thead><tbody><tr><td><b>Fecha de elaboracion de demanda</b></td>' +
+            '<td>' + result.fecha_elab_demanda +'</td></tr><tr><td><b>Fecha de presentacion de demanda</b></td><td>' +result.fecha_presenta_demanda+ '</td></tr><tr><td><b>Observaciones</b></td>' +
+            '<td>' + result.observaciones  + '<tr><td><b>Estado</b></td>' +
+            '<td>' + result.estado_demanda +'</td></tr><tr><td><b>Fecha de admision</b></td><td>' +result.fecha_novedad+ '</td></tr><tr><td><b>Juzgado</b></td>' +
+            '<td>' + result.juzgado  + '</td></tr>'+
+            '<tr><td><b>Fecha Auto medida cautelar</b></td><td>' +result.fecha_medida_cautelar + '</td></tr>' +
+           
+            '<tr><td><b>Fecha Auto mandamiento de pago</b></td><td>' +result.fecha_mandamiento_pago+ '</td></tr>' +
+            '<tr><td><b>Observaciones Auto medida cautelar</b></td><td>' +result.observs_med_cautelar+ '</td></tr>' +
+    
+            '</tbody></table>'
+                            );
+                    }
+                 });
             });
         </script>
     </head>
-
     <body>
         <!-- WRAPPER -->
         <div id="wrapper">
@@ -125,6 +157,9 @@
                     <div class="container-fluid">
                         <h3 class="page-title">Detalles</h3>
                         <div class="row">
+                            <section id="proceso">
+                                
+                            </section>
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-primary">
                                     <div class="panel-heading" role="tab" id="headingOne">
@@ -136,8 +171,8 @@
                                         </h4>
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                                        <div class="panel-body">
-                                            Collapsible Body 1
+                                        <div id="cuerpoDemanda" class="panel-body">
+                                          
                                         </div>
                                     </div>
                                 </div>
