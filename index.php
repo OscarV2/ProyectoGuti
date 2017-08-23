@@ -52,12 +52,12 @@
                     <div class="navbar-btn">
                         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
                     </div>
-                    <!--form id="form_buscar_todo" class="navbar-form navbar-left"-->
+                    <div id="form_buscar_todo" class="navbar-form navbar-left"-->
                         <div class="input-group">
                             <input id="in_cedula" type="text" name="cedula" value="" class="form-control" placeholder="Buscar Proceso..." required>
                             <span class="input-group-btn"><button  onclick="irDetalles()" class="btn btn-primary">Buscar</button></span>
                         </div>
-                    <!--/form-->
+                    </div>
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right">											
                             <li class="dropdown">

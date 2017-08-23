@@ -29,52 +29,68 @@
         <script>
             $(document).ready(function () {
 
-                $("#accordion").on("hidden.bs.collapse", function (e) {
-                    $(e.target).closest(".panel-primary")
-                            .find(".panel-heading span")
-                            .removeClass("glyphicon glyphicon-minus")
-                            .addClass("glyphicon glyphicon-plus");
-                });
-                $("#accordion").on("shown.bs.collapse", function (e) {
-                    $(e.target).closest(".panel-primary")
-                            .find(".panel-heading span")
-                            .removeClass("glyphicon glyphicon-plus")
-                            .addClass("glyphicon glyphicon-minus");
-                });
-                
-                
-                $.ajax({  
+                setAccordion();
+                $.ajax({
                     type: 'POST',
                     url: 'PhpFiles/Functions.php',
-                    data : 'cedula='+sessionStorage.getItem('cedula')+'&functionName=buscar_todo',
+                    data: 'cedula=' + sessionStorage.getItem('cedula') + '&functionName=buscar_todo',
                     success: function (data) {
                         result = JSON.parse(data);
-                        $("#proceso").append( '<table class="table"><caption>Proceso</caption>' +
-            '<thead>' +
-            '<tr>' +
-            '<th><b>Numero</b></th><th>ACJ-' + result.numero+ '</th></tr></thead><tbody><tr><td><b>Cliente</b></td>' +
-            '<td>' + result.nombre +'  '  +result.apellido +'</td></tr><tr><td><b>Cedula</b></td><td>' +result.cedula+ '</td></tr><tr><td><b>Clase de Proceso</b></td>' +
-            '<td>' + result.tipoProceso  + '</td></tr></tbody></table>');
-                    
-                    $("#cuerpoDemanda").append(
-                            '<table class="table">' +
-            '<thead>' +
-            '<tr>' +
-            '<th><b>Fecha de recepcion de documentos</b></th><th>' + result.fecha_recibe_docs+ '</th></tr></thead><tbody><tr><td><b>Fecha de elaboracion de demanda</b></td>' +
-            '<td>' + result.fecha_elab_demanda +'</td></tr><tr><td><b>Fecha de presentacion de demanda</b></td><td>' +result.fecha_presenta_demanda+ '</td></tr><tr><td><b>Observaciones</b></td>' +
-            '<td>' + result.observaciones  + '<tr><td><b>Estado</b></td>' +
-            '<td>' + result.estado_demanda +'</td></tr><tr><td><b>Fecha de admision</b></td><td>' +result.fecha_novedad+ '</td></tr><tr><td><b>Juzgado</b></td>' +
-            '<td>' + result.juzgado  + '</td></tr>'+
-            '<tr><td><b>Fecha Auto medida cautelar</b></td><td>' +result.fecha_medida_cautelar + '</td></tr>' +
-           
-            '<tr><td><b>Fecha Auto mandamiento de pago</b></td><td>' +result.fecha_mandamiento_pago+ '</td></tr>' +
-            '<tr><td><b>Observaciones Auto medida cautelar</b></td><td>' +result.observs_med_cautelar+ '</td></tr>' +
-    
-            '</tbody></table>'
-                            );
+                        $("#proceso").append('<table class="table"><caption>Proceso</caption>' +
+                                '<thead>' +
+                                '<tr>' +
+                                '<th><b>Numero</b></th><th>ACJ-' + result.numero + '</th></tr></thead><tbody><tr><td><b>Cliente</b></td>' +
+                                '<td>' + result.nombre + '  ' + result.apellido + '</td></tr><tr><td><b>Cedula</b></td><td>' + result.cedula + '</td></tr><tr><td><b>Clase de Proceso</b></td>' +
+                                '<td>' + result.tipoProceso + '</td></tr></tbody></table>');
+
+                        if (result.fecha_recibe_docs !== undefined) {
+
+                            llenarDemanda(result);
+                        } else {
+                            $("#cuerpoDemanda").append("NO existe la actuacion.");
+                        }
+                        if (result.fecha_sol_adelante !== undefined) {
+    llenarSentencia(result);
+}else{
+    $("#cuerpoDemanda").append("NO existe la actuacion.");}
                     }
-                 });
+                });
             });
+            function llenarDemanda(result) {
+                $("#cuerpoDemanda").append(
+                        '<table class="table">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th><b>Fecha de recepcion de documentos</b></th><th>' + result.fecha_recibe_docs + '</th></tr></thead><tbody><tr><td><b>Fecha de elaboracion de demanda</b></td>' +
+                        '<td>' + result.fecha_elab_demanda + '</td></tr><tr><td><b>Fecha de presentacion de demanda</b></td><td>' + result.fecha_presenta_demanda + '</td></tr><tr><td><b>Observaciones</b></td>' +
+                        '<td>' + result.observaciones + '<tr><td><b>Estado</b></td>' +
+                        '<td>' + result.estado_demanda + '</td></tr><tr><td><b>Fecha de admision</b></td><td>' + result.fecha_novedad + '</td></tr><tr><td><b>Juzgado</b></td>' +
+                        '<td>' + result.juzgado + '</td></tr>' +
+                        '<tr><td><b>Fecha Auto medida cautelar</b></td><td>' + result.fecha_medida_cautelar + '</td></tr>' +
+                        '<tr><td><b>Fecha Auto mandamiento de pago</b></td><td>' + result.fecha_mandamiento_pago + '</td></tr>' +
+                        '<tr><td><b>Observaciones Auto medida cautelar</b></td><td>' + result.observs_med_cautelar + '</td></tr>' +
+                        '</tbody></table>'
+                        );
+            }
+            function llenarSentencia(result) {
+                
+                $("#cuerpoSentencia").append(
+                        '<table class="table">' +
+                        '<thead>' +
+                        '<tr>' +
+                        '<th><b>Fecha de solicitud de seguir adelante</b></th><th>' + result.fecha_sol_adelante + '</th></tr></thead><tbody><tr><td><b>Observaciones</b></td>' +
+                        '<td>' + result.observs_sol_adelante + '</td></tr><tr><td><b>Fecha Auto Seguir adelante</b></td><td>' + result.fecha_auto_adelante + '</td></tr><tr><td><b>Observaciones</b></td>' +
+                        '<td>' + result.observaciones + '<tr><td><b>Estado</b></td>' +
+                        '<td>' + result.observs_auto_adelante + '</td></tr><tr><td><b>Fecha Solicitud estado de endeudamiento</b></td><td>' + result.fecha_estado_endeuda + '</td></tr><tr><td><b>Observaciones</b></td>' +
+                        '<td>' + result.observs_estado_endeuda + '</td></tr>' +                       
+                        '</tbody></table>'
+                        );
+
+            }
+            function llenarLiquidacion() {
+
+            }
+
         </script>
     </head>
     <body>
@@ -158,7 +174,6 @@
                         <h3 class="page-title">Detalles</h3>
                         <div class="row">
                             <section id="proceso">
-                                
                             </section>
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-primary">
@@ -172,7 +187,7 @@
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                         <div id="cuerpoDemanda" class="panel-body">
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -186,8 +201,8 @@
                                         </h4>
                                     </div>
                                     <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-                                        <div class="panel-body">
-                                            Collapsible Body 2
+                                        <div id="cuerpoSentencia" class="panel-body">
+
                                         </div>
                                     </div>
                                 </div>
@@ -201,8 +216,8 @@
                                         </h4>
                                     </div>
                                     <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
-                                        <div class="panel-body">
-                                            Collapsible Body 3
+                                        <div id="cuerpoLiquidacion" class="panel-body">
+
                                         </div>
                                     </div> 
                                 </div>
@@ -216,8 +231,8 @@
                                         </h4>
                                     </div>
                                     <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                                        <div class="panel-body">
-                                            Collapsible Body 3
+                                        <div id="cuerpoCobros" class="panel-body">
+
                                         </div>
                                     </div> 
                                 </div>

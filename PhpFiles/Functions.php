@@ -1,4 +1,4 @@
-<?php
+    <?php
 
 require 'DbHandler.php';
 include 'ChromePhp.php';
@@ -229,6 +229,13 @@ elseif ($functionName === 'guardar-auto-liquidacion') {
         $data[] = filter_input(INPUT_POST, 'opcionesApruebaLiqui');
         $data[] = filter_input(INPUT_POST, 'observaciones');
 
+         $data[] = filter_input(INPUT_POST, 'cuenta_numero');
+        $data[] = filter_input(INPUT_POST, 'fecha_elab_cuenta');
+        $data[] = filter_input(INPUT_POST, 'cuenta_valor');
+
+        $data[] = filter_input(INPUT_POST, 'conceptoCuenta');
+        $data[] = filter_input(INPUT_POST, 'optionsCuentaPagada');
+        
         guardarAutoLiqui($id, $data);
         echo 'success';
     } catch (Exception $exc) {
@@ -259,6 +266,12 @@ elseif ($functionName === 'guardar-dili-secuestro') {
         $data[] = filter_input(INPUT_POST, 'despacho_comisorio');
         $data[] = filter_input(INPUT_POST, 'comisionanA');
 
+         $data[] = filter_input(INPUT_POST, 'cuenta_numero');
+        $data[] = filter_input(INPUT_POST, 'fecha_elab_cuenta');
+        $data[] = filter_input(INPUT_POST, 'cuenta_valor');
+
+        $data[] = filter_input(INPUT_POST, 'conceptoCuenta');
+        $data[] = filter_input(INPUT_POST, 'optionsCuentaPagada');
         guardarDiliSecuestro($id, $data);
         echo 'success';
     } catch (Exception $exc) {
