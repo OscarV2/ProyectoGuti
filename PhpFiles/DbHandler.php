@@ -421,6 +421,28 @@ function detalles($cedula) {
             $resultado['juzgado'] = $admiteDemanda->juzgado;
         }
 
+        $citacion = R::findOne('citacion', 'demanda_id = ' . $demanda->id);
+        if ($citacion !== NULL) {
+
+            $resultado['entrega_citacion'] = $citacion->entrega_citacion;
+            $resultado['guia_citacion'] = $citacion->guia;
+            $resultado['fecha_citacion'] = $citacion->fecha_novedad;
+            $resultado['fecha_inicio_noti_citacion'] = $citacion->fecha_inicio_noti;
+            $resultado['fecha_pre_juzgado'] = $citacion->fecha_pre_juzgado;
+            $resultado['observs_fecha_pre_juzgado'] = $citacion->observs_fecha_pre_juzgado;
+        }
+
+        $aviso = R::findOne('aviso', 'demanda_id = ' . $demanda->id);
+        if ($aviso !== NULL) {
+            $resultado['entrega_aviso'] = $aviso->entrega_aviso;
+            $resultado['guia_aviso'] = $aviso->guia;
+            $resultado['fecha_inicio_noti_aviso'] = $aviso->fecha_inicio_noti;
+            $resultado['fecha_aviso'] = $aviso->fecha_novedad;
+            $resultado['fecha_pre_juzgado_aviso'] = $aviso->fecha_pre_juzgado;
+            $resultado['observaciones_aviso'] = $aviso->observs_fecha_pre_juzgado;
+            $resultado['entrega_aviso_deman'] = $aviso->entrega_aviso_deman;
+        }
+
         $sentencia = R::findOne('sentencia', 'demanda_id = ' . $demanda->id);
         if ($sentencia !== NULL) {
             $resultado['fecha_sol_adelante'] = $sentencia->fecha_sol_adelante;
@@ -431,10 +453,75 @@ function detalles($cedula) {
             $resultado['observs_estado_endeuda'] = $sentencia->observs_estado_endeudamiento;
         }
     }
+
+    $liquidacion = R::findOne('liquidacion', 'proceso_id = ' . $proceso->id);
+    $resultado['fecha_pre_juz_liqui'] = $liquidacion->fecha_pre_juzgado;
+    $resultado['valor_liqui'] = $liquidacion->valor;
+    $resultado['observaciones_liqui'] = $liquidacion->observaciones;
+
+    $autoliqui = R::findOne('autoliqui', 'liquidacion_id = ' . $liquidacion->id);
+      
+    $avaluo = R::findOne('avaluo', 'liquidacion_id = ' . $liquidacion->id);
+
+    $dilisecuestro = R::findOne('dilisecuestro', 'liquidacion_id = ' . $liquidacion->id);
+    
+    $embargo = R::findOne('embargo', 'liquidacion_id = ' . $liquidacion->id);
+    $remate = R::findOne('remate', 'liquidacion_id = ' . $liquidacion->id);
+    $trasladoCredito = R::findOne('trasladocredito', 'liquidacion_id = ' . $liquidacion->id);
+
+   $resultado['autoliqui'] = getAutoLiquiArray($autoliqui); 
+    $resultado['avaluo'] = getAvaluoArray($avaluo);
+    
+    $resultado['dilisecuestro'] = getDiliSecuestroArray($dilisecuestro);
+    $resultado['embargo'] = getEmbargoArray($embargo);
+    $resultado['remate'] = getRemateArray($remate);
+    $resultado['trasladocredito'] = getTrasladoCreditoArray($trasladoCredito);
+    
     desconectar();
     return $resultado;
 }
 
+function getAutoLiquiArray($autoliqui) {
+    
+    return array('fecha_auto_aprueba' => $autoliqui -> fecha_auto_aprueba,
+        'valor_aprobado' => $autoliqui -> valor_aprobado, 
+        'opciones_aprueba_liqui' => $autoliqui -> opciones_aprueba_liqui,
+        'observaciones' => $autoliqui -> observaciones);
+}
+
+function getAvaluoArray($avaluo) {
+    
+    return array('fecha_sol_avaluo' => $avaluo -> fecha_sol_avaluo,
+        'perito' => $avaluo -> perito, 
+        'cedula' => $avaluo -> cedula,
+        'fecha_aprobacion_avaluo' => $avaluo -> fecha_aprobacion_avaluo,
+        'observaciones' => $avaluo -> observaciones,
+         'juzgado' => $avaluo -> juzgado);
+}
+function getDiliSecuestroArray($dilisecuestro) {
+    
+    return array('fecha_auto_diligencia' => $dilisecuestro -> fecha_auto_diligencia,
+        'fecha_solicitud' => $dilisecuestro -> fecha_solicitud, 
+        'despacho_comisorio' => $dilisecuestro -> despacho_comisorio,
+        'comisionan_a' => $dilisecuestro ->comisionan_a);
+}
+function getEmbargoArray($embargo) {
+    
+    return array('fecha_inscripcion' => $embargo -> fecha_inscripcion,
+        'observaciones' => $embargo -> observaciones );
+}
+function getRemateArray($remate) {
+    
+    return array('fecha_traslado' => $remate -> fecha_traslado,
+        'fecha_auto_remate' => $remate -> fecha_auto_remate, 
+        'observaciones' => $remate -> observaciones
+        );
+}
+function getTrasladoCreditoArray($trasladoCredito) {
+    
+    return array('fecha_traslado' => $trasladoCredito -> fecha_traslado,
+        'observaciones' => $trasladoCredito -> observaciones, );
+}
 function desconectar() {
     R::close();
 }

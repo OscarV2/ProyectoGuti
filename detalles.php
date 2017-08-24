@@ -35,7 +35,8 @@
                     url: 'PhpFiles/Functions.php',
                     data: 'cedula=' + sessionStorage.getItem('cedula') + '&functionName=buscar_todo',
                     success: function (data) {
-                        result = JSON.parse(data);
+                       var  result = JSON.parse(data);
+                       console.log(result);
                         $("#proceso").append('<table class="table"><caption>Proceso</caption>' +
                                 '<thead>' +
                                 '<tr>' +
@@ -50,9 +51,12 @@
                             $("#cuerpoDemanda").append("NO existe la actuacion.");
                         }
                         if (result.fecha_sol_adelante !== undefined) {
-    llenarSentencia(result);
-}else{
-    $("#cuerpoDemanda").append("NO existe la actuacion.");}
+                            llenarSentencia(result);
+                        } else {
+                            $("#cuerpoDemanda").append("NO existe la actuacion.");
+                        }
+                        
+                        console.log('valor autoLiqui: ' + result.autoliqui.valor_aprobado);
                     }
                 });
             });
@@ -73,7 +77,7 @@
                         );
             }
             function llenarSentencia(result) {
-                
+
                 $("#cuerpoSentencia").append(
                         '<table class="table">' +
                         '<thead>' +
@@ -82,7 +86,7 @@
                         '<td>' + result.observs_sol_adelante + '</td></tr><tr><td><b>Fecha Auto Seguir adelante</b></td><td>' + result.fecha_auto_adelante + '</td></tr><tr><td><b>Observaciones</b></td>' +
                         '<td>' + result.observaciones + '<tr><td><b>Estado</b></td>' +
                         '<td>' + result.observs_auto_adelante + '</td></tr><tr><td><b>Fecha Solicitud estado de endeudamiento</b></td><td>' + result.fecha_estado_endeuda + '</td></tr><tr><td><b>Observaciones</b></td>' +
-                        '<td>' + result.observs_estado_endeuda + '</td></tr>' +                       
+                        '<td>' + result.observs_estado_endeuda + '</td></tr>' +
                         '</tbody></table>'
                         );
 
