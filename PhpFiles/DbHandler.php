@@ -2,9 +2,16 @@
 
 //include 'ChromePhp.php';
 require 'rb.php';
+$url = 'mysql://mysql:3306/';
+$username = 'root';
+$password = 'vyhOxvCdPrfcJtEy';
+
+$dbh = new PDO($password, $username, $url);
+R::setup($dbh);
+/*
 R::setup('mysql:host=mysql://mysql:3306/;'
         . 'dbname=gutidb', 'root', 'vyhOxvCdPrfcJtEy');
-
+*/
 function buscarUltimos() {
 
     $sql = 'SELECT * FROM proceso ORDER BY ID DESC LIMIT 10';
