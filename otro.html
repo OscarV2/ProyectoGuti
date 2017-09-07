@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Sentencia</title>
+        <title>Otro</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -31,17 +31,17 @@
         <script src="assets/vendor/utils.js"></script>
 
         <script>
-           $(document).ready(function () {
+            $(document).ready(function () {
                 setFechasNuevo();
                 setNumberItems();
-                $("#form_sentencia").submit(function (e) {
+                $("#form_otro").submit(function (e) {
 
                     e.preventDefault();
                     if (id !== undefined) {
                         $.ajax({
                             type: 'POST',
                             url: 'PhpFiles/Functions.php',
-                            data: $("#form_sentencia").serialize() + '&functionName=guardar-sentencia&id=' + id,
+                            data: $("#form_otro").serialize() + '&functionName=guardar-otro&id=' + id,
                             success: function (data) {
                                 console.log(data);
                                 if (data === 'success') {
@@ -53,7 +53,11 @@
                         alert('Debe realizar una busqueda de proceso antes de realizar una nueva operacion.');
                     }
                 });
-            });            
+            });
+            
+            function verCuenta() {
+    $("#nuevoCobro").attr('hidden' , false);
+}
         </script>
     </head>
     <body>
@@ -113,9 +117,10 @@
                                     </ul>
                                 </div>
                             </li>
-                            <li><a href="sentencia.html" class="active"><i class="lnr lnr-dice"></i> <span>Sentencia</span></a></li>
+                            <li><a href="sentencia.html" class=""><i class="lnr lnr-dice"></i> <span>Sentencia</span></a></li>
                             <li><a href="liquidacion.html" class=""><i class="lnr lnr-alarm"></i> <span>Liquidación</span></a></li>
-                            <li><a href="otro.html" class=""><i class="lnr lnr-alarm"></i> <span>Otro</span></a></li>
+                            <li><a href="otro.html" class="active"><i class="lnr lnr-dice"></i> <span>Otro</span></a></li>
+
                         </ul>
                     </nav>
                 </div>
@@ -128,7 +133,7 @@
                     <div class="container-fluid">
                         <div class="row">           
                             <div class="panel">
-                                <div class="panel-heading"><h3>Sentencia</h3></div>                               
+                                <div class="panel-heading"><h3>Nueva Actuacion</h3></div>                               
                                 <div class="panel-body">
                                     <div class="col-md-4">
                                         <div class="input-group">
@@ -164,13 +169,19 @@
 
                                     <section id="resultBusqueda"></section>
 
-                                    <form id="form_sentencia">
+                                    <form id="form_otro">
 
-                                        <div class='col-sm-4'>
+                                        <div class="col-md-6">
+                                                <div class="form-group label-floating">
+                                                    <label class="control-label">Actuacion:</label>
+                                                    <input type="text" name="actuacion_nombre" required class="form-control">
+                                                </div>
+                                            </div> 
+                                        <div class='col-sm-6'>
                                             <div class="form-group">
-                                                <label>Fecha Solicitud de orden de seguir adelante</label>
+                                                <label>Fecha</label>
                                                 <div class='input-group date' id='datetimepicker1'>
-                                                    <input type='text' class="form-control" name="fecha_sol_adelante"/>
+                                                    <input type='text' class="form-control" name="fecha"/>
                                                     <span class="input-group-addon">
                                                         <span class="glyphicon glyphicon-calendar"></span>
                                                     </span>
@@ -178,46 +189,14 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-md-8">
+                                        <div class="col-md-12">
                                             <label for="comment">Observaciones</label>
-                                            <textarea class="form-control" rows="4" id="comment" name="observs_sol_adelante"></textarea>
+                                            <textarea class="form-control" rows="4" id="comment" name="observaciones"></textarea>
                                         </div>
-                                        <!-- Auto de seguir adelante-->
-                                        <div class='col-sm-4'>
-                                            <div class="form-group">
-                                                <label>Fecha Auto seguir adelante</label>
-                                                <div class='input-group date' id='datetimepicker1'>
-                                                    <input type='text' class="form-control" name="fecha_auto_adelante"/>
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-8">
-                                            <label for="comment">Observaciones</label>
-                                            <textarea class="form-control" rows="4" id="comment" name="observs_auto_adelante"></textarea>
-                                        </div>
-                                        <!-- Solicitud de estado de endeudamiento-->
-
-                                        <div class='col-sm-4'>
-                                            <div class="form-group">
-                                                <label>Fecha Solicitud de estado de endeudamiento</label>
-                                                <div class='input-group date' id='datetimepicker1'>
-                                                    <input type='text' class="form-control" name="fecha_estado_endeuda"/>
-                                                    <span class="input-group-addon">
-                                                        <span class="glyphicon glyphicon-calendar"></span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-8">
-                                            <label for="comment">Observaciones</label>
-                                            <textarea class="form-control" rows="4" id="comment" name="observs_estado_endeudamiento"></textarea>
-                                        </div>
-                                        <h4>Cuenta de cobro</h4>
+                                       <br><br><br><br>
+                                        
+                                        <section id="nuevoCobro" hidden>
+                                            <h4>Cuenta de cobro</h4>
 
                                         <div class="col-md-3">
                                             <div class="form-group label-floating">
@@ -248,7 +227,7 @@
                                         <div class="col-md-3">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Concepto</label>
-                                                <input type="text" class="form-control" name="conceptoCuenta" value="Sentencia" readonly>
+                                                <input type="text" class="form-control" name="conceptoCuenta">
                                             </div>
                                         </div> 
 
@@ -263,6 +242,12 @@
                                                 <span><i></i>No</span>
                                             </label>                                       
                                         </div>
+                                        </section>
+                                        
+                                        
+                                        <p class="demo-button">
+                                            <button  class="btn btn-primary btn-lg" onclick="verCuenta()"><i class="fa fa-plus-square"></i>  Añadir Cuenta de cobro</button>
+                                        </p>
 
                                         <p class="demo-button">
                                             <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-plus-square"></i>  Guardar</button>
@@ -287,3 +272,4 @@
         <!-- END WRAPPER -->
     </body>
 </html>
+

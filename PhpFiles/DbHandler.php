@@ -2,8 +2,8 @@
 
 //include 'ChromePhp.php';
 require 'rb.php';
-R::setup('mysql:host=localhost;'
-        . 'dbname=gutidb', 'root', '');
+R::setup('mysql:host=mysql://mysql:3306/;'
+        . 'dbname=gutidb', 'root', 'vyhOxvCdPrfcJtEy');
 
 function buscarUltimos() {
 
@@ -400,15 +400,18 @@ function detalles($cedula) {
     $cliente = R::findOne('cliente', 'cedula = ' . $cedula);
     $proceso = R::load('proceso', $cliente['proceso_id']);
     $demanda = R::findOne('demanda', 'proceso_id = ' . $proceso->id);
+    
+    $resultado = array('tipoProceso' => $proceso->clase,
+        'numero' => $proceso->numero);
+    
+  $resultado['cuentas'] = getCuentas($proceso);
+  $resultado['clientes'] = getClientes($proceso);
+ /*   if ($demanda !== NULL) {
 
-    $resultado = array('nombre' => $cliente->nombre, 'apellido' => $cliente->apellido,
-        'cedula' => $cliente->cedula, 'direccion' => $cliente->direccion, 'tipoProceso' => $proceso->clase,
-        'numero' => $proceso->numero, 'fecha_recibe_docs' => $demanda->fecha_recibe_docs,
-        'fecha_elab_demanda' => $demanda->fecha_elab_demanda,
-        'fecha_presenta_demanda' => $demanda->fecha_presenta_demanda, 'observaciones' => $demanda->observacion);
-
-    if ($demanda !== NULL) {
-
+        $resultado['fecha_recibe_docs'] = $demanda -> fecha_recibe_docs;
+        $resultado['fecha_elab_demanda'] = $demanda -> fecha_elab_demanda;
+       $resultado['fecha_presenta_demanda'] = $demanda -> fecha_presenta_demanda;
+       $resultado['observaciones'] = $demanda -> observaciones;
         $admiteDemanda = R::findOne('admidemanda', 'demanda_id = ' . $demanda->id);
         if ($admiteDemanda !== NULL) {
 
@@ -476,11 +479,49 @@ function detalles($cedula) {
     $resultado['embargo'] = getEmbargoArray($embargo);
     $resultado['remate'] = getRemateArray($remate);
     $resultado['trasladocredito'] = getTrasladoCreditoArray($trasladoCredito);
-    
+      
+     
+    */
     desconectar();
     return $resultado;
 }
 
+function getCuentas($proceso) {
+   $contCuentas = 0;
+    $cuentas = array();
+    foreach ($proceso -> ownCuentaList as $cuenta ) {
+      
+        $arrayCuentas = array();
+        $arrayCuentas['cuenta_numero'] = $cuenta -> cuenta_numero;    
+        $arrayCuentas['fecha_elab_cuenta'] = $cuenta -> fecha_elab_cuenta; 
+        $arrayCuentas['cuenta_valor'] = $cuenta -> cuenta_valor; 
+        $arrayCuentas['concepto_cuenta'] = $cuenta -> concepto_cuenta; 
+        $arrayCuentas['options_cuenta_pagada'] = $cuenta -> options_cuenta_pagada; 
+        $cuentas[$contCuentas] = $arrayCuentas;
+        $contCuentas++;
+    }
+    return $cuentas;
+        
+}
+function getClientes($proceso) {
+   $contClientes = 0;
+    $clientes = array();
+    foreach ($proceso -> ownClienteList as $cliente ) {
+        
+        $arrayClientes = array();
+        $arrayClientes['nombre'] = $cliente -> nombre;    
+        $arrayClientes['apellido'] = $cliente -> apellido; 
+        $arrayClientes['cedula'] = $cliente -> cedula; 
+        $arrayClientes['direccion'] = $cliente -> direccion; 
+        ChromePhp::log('nombres '.$arrayClientes['nombre']);
+        ChromePhp::log('cedulas '.$arrayClientes['cedula']);
+        ChromePhp::log('apellidos '.$arrayClientes['apellido']);
+        ChromePhp::log('direcciones '.$arrayClientes['direccion']);
+        $clientes[$contClientes] = $arrayClientes;
+        $contClientes++;
+    }
+    return $clientes;        
+}
 function getAutoLiquiArray($autoliqui) {
     
     return array('fecha_auto_aprueba' => $autoliqui -> fecha_auto_aprueba,

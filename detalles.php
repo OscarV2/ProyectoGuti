@@ -37,13 +37,20 @@
                     success: function (data) {
                        var  result = JSON.parse(data);
                        console.log(result);
-                        $("#proceso").append('<table class="table"><caption>Proceso</caption>' +
+                       $("#proceso_header").append(
+                                '<tr>' +
+                                '<th><b>Numero</b></th><th>ACJ-' + result.numero + '</th></tr>'
+                               );
+                       llenarClientes(result);
+                       terminarTablaProceso(result);
+    /*                    $("#cuerpoProceso").append('<table class="table"><caption>Proceso</caption>' +
                                 '<thead>' +
                                 '<tr>' +
                                 '<th><b>Numero</b></th><th>ACJ-' + result.numero + '</th></tr></thead><tbody><tr><td><b>Cliente</b></td>' +
-                                '<td>' + result.nombre + '  ' + result.apellido + '</td></tr><tr><td><b>Cedula</b></td><td>' + result.cedula + '</td></tr><tr><td><b>Clase de Proceso</b></td>' +
+                                '<td>' + result.nombre + '  ' + result.apellido + '</td></tr><tr><td><b>Cedula</b></td><td>' + result.cedula +
+                                '</td></tr><tr><td><b>Clase de Proceso</b></td>' +
                                 '<td>' + result.tipoProceso + '</td></tr></tbody></table>');
-
+*/
                         if (result.fecha_recibe_docs !== undefined) {
 
                             llenarDemanda(result);
@@ -55,8 +62,11 @@
                         } else {
                             $("#cuerpoDemanda").append("NO existe la actuacion.");
                         }
-                        
-                        console.log('valor autoLiqui: ' + result.autoliqui.valor_aprobado);
+                        if (result) {
+   
+} else {
+}
+                        llenarCuentas(result);
                     }
                 });
             });
@@ -92,9 +102,42 @@
 
             }
             function llenarLiquidacion() {
-
+                
+                
             }
+            function llenarCuentas(result) {
+                for (var i = 0; i < result.cuentas.length; i++) {
+    console.log("cuenta numero " + result.cuentas[i].cuenta_numero);
 
+                $("#cuerpoCobros").append(  
+                        '<tr>' +
+                                                    '<td>' + result.cuentas[i].cuenta_numero + '</td>' +                                                    
+                                                    '<td>' + result.cuentas[i].cuenta_valor + '</td>' +
+                                                    '<td>' + result.cuentas[i].fecha_elab_cuenta + '</td>' +
+                                                    '<td>' + result.cuentas[i].concepto_cuenta  + '</td>' +                                                
+                                                    '<td>' + result.cuentas[i].options_cuenta_pagada + '</td>' +
+                                                    '<td><p data-placement="top" data-toggle="tooltip" title="Editar"><button class="btn btn-primary btn-xs" data-title="Editar" data-toggle="modal" data-target="#edit" ><span class="glyphicon glyphicon-pencil"></span></button></p></td>' +
+                                                '</tr>'
+                );
+    }
+}
+function llenarClientes(result) {
+    for (var i = 0; i < result.clientes.length; i++){
+        $("#cuerpoProceso").append(
+                '<tr><td><b>Cliente</b></td>' +
+                                '<td>' + result.clientes[i].nombre + '  ' + result.clientes[i].apellido + '</td></tr><tr><td><b>Cedula</b></td><td>' +
+                                result.clientes[i].cedula +
+                                '</td></tr>'
+                );
+    }
+    
+}
+function terminarTablaProceso(result) {
+     $("#cuerpoProceso").append(
+             '<tr><td><b>Clase de Proceso</b></td>' +
+                                '<td>' + result.tipoProceso + '</td></tr>'
+             );
+}
         </script>
     </head>
     <body>
@@ -109,13 +152,6 @@
                     <div class="navbar-btn">
                         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
                     </div>
-                    <form class="navbar-form navbar-left">
-                        <div class="input-group">
-                            <input type="text" value="" class="form-control" placeholder="Buscar Proceso...">
-                            <span class="input-group-btn"><button onclick="ver()" type="button" class="btn btn-primary">Buscar</button></span>
-                        </div>
-                    </form>
-
                     <div id="navbar-menu">
                         <ul class="nav navbar-nav navbar-right">											
                             <li class="dropdown">
@@ -136,7 +172,7 @@
                 <div class="sidebar-scroll">
                     <nav>
                         <ul class="nav">
-                            <li><a href="index.php" class="active"><i class="lnr lnr-home"></i> <span>Inicio</span></a></li>
+                            <li><a href="index.php" class=""><i class="lnr lnr-home"></i> <span>Inicio</span></a></li>
                             <li><a href="nuevo.html" class=""><i class="lnr lnr-code"></i> <span>Nuevo Proceso</span></a></li>
                             <li>
                                 <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Demanda</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
@@ -162,9 +198,8 @@
                                 </div>
                             </li>       
                             <li><a href="sentencia.html" class=""><i class="lnr lnr-dice"></i> <span>Sentencia</span></a></li>
-
                             <li><a href="liquidacion.html" class=""><i class="lnr lnr-alarm"></i> <span>Liquidación</span></a></li>
-
+                            <li><a href="otro.html" class=""><i class="lnr lnr-alarm"></i> <span>Otro</span></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -178,6 +213,13 @@
                         <h3 class="page-title">Detalles</h3>
                         <div class="row">
                             <section id="proceso">
+                                <table class="table"><caption>Proceso</caption>
+                                    <thead id="proceso_header">
+                                </thead>
+                                <tbody id="cuerpoProceso">
+                                    
+                                </tbody>
+                                </table>
                             </section>
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="panel panel-primary">
@@ -235,8 +277,22 @@
                                         </h4>
                                     </div>
                                     <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-                                        <div id="cuerpoCobros" class="panel-body">
-
+                                        <div class="panel-body">
+<table class="table">
+                                            <thead class="thead-inverse">
+                                                <tr>
+                                                    <th>Numero de cuenta</th>
+                                                    <th>Valor</th>                                                    
+                                                    <th>Fecha</th>
+                                                    <th>Concepto</th>
+                                                    <th>Pagada</th>
+                                                    <th>Editar</th>                                          
+                                                </tr>
+                                            </thead>
+                                            <tbody id="cuerpoCobros">
+                                                                                             
+                                            </tbody>
+                                        </table>
                                         </div>
                                     </div> 
                                 </div>

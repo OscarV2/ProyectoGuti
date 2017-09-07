@@ -46,13 +46,13 @@
             <!-- NAVBAR -->
             <nav class="navbar navbar-default navbar-fixed-top">
                 <div class="brand">
-                    <a href="index.html"><img src="assets/img/" alt="Logo" class="img-responsive logo"></a>
+                    <a href="index.html"><img src="assets/img/logo-dark.png" alt="Logo" class="img-responsive logo"></a>
                 </div>
                 <div class="container-fluid">
                     <div class="navbar-btn">
                         <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
                     </div>
-                    <div id="form_buscar_todo" class="navbar-form navbar-left"-->
+                    <div id="form_buscar_todo" class="navbar-form navbar-left">
                         <div class="input-group">
                             <input id="in_cedula" type="text" name="cedula" value="" class="form-control" placeholder="Buscar Proceso..." required>
                             <span class="input-group-btn"><button  onclick="irDetalles()" class="btn btn-primary">Buscar</button></span>
@@ -104,9 +104,8 @@
                                 </div>
                             </li>       
                             <li><a href="sentencia.html" class=""><i class="lnr lnr-dice"></i> <span>Sentencia</span></a></li>
-
                             <li><a href="liquidacion.html" class=""><i class="lnr lnr-alarm"></i> <span>Liquidación</span></a></li>
-
+                              <li><a href="otro.html" class=""><i class="lnr lnr-alarm"></i> <span>Otro</span></a></li>
                         </ul>
                     </nav>
                 </div>
