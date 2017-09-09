@@ -27,17 +27,17 @@
         <script src="assets/scripts/klorofil-common.js"></script>
 
         <script>
-      //      $("#form_buscar_todo").submit(function (e) {
-                
-                //e.preventDefault();
-              //  sessionStorage.setItem('cedula',  $("#in_cedula").val());
-              //  window.location.replace("detalles.php");
-          //  });
-           function irDetalles() {
-      sessionStorage.setItem('cedula',  $("#in_cedula").val());
+            //      $("#form_buscar_todo").submit(function (e) {
+
+            //e.preventDefault();
+            //  sessionStorage.setItem('cedula',  $("#in_cedula").val());
+            //  window.location.replace("detalles.php");
+            //  });
+            function irDetalles() {
+                sessionStorage.setItem('cedula', $("#in_cedula").val());
                 window.location.replace("detalles.php");
                 console.log('me fui');
-}
+            }
         </script>
     </head>
     <body>
@@ -105,7 +105,7 @@
                             </li>       
                             <li><a href="sentencia.html" class=""><i class="lnr lnr-dice"></i> <span>Sentencia</span></a></li>
                             <li><a href="liquidacion.html" class=""><i class="lnr lnr-alarm"></i> <span>Liquidación</span></a></li>
-                              <li><a href="otro.html" class=""><i class="lnr lnr-alarm"></i> <span>Otro</span></a></li>
+                            <li><a href="otro.html" class=""><i class="lnr lnr-alarm"></i> <span>Otro</span></a></li>
                         </ul>
                     </nav>
                 </div>
@@ -139,6 +139,20 @@
                                             <tbody>
                                                 <?php
                                                 include 'PhpFiles/DbHandler.php';
+                                                include 'ChromePhp.php';
+                                                $servername = "mysql://mysql:3306/";
+                                                $username = "root";
+                                                $password = "vyhOxvCdPrfcJtEy";
+
+// Create connection
+                                                $conn = mysqli_connect($servername, $username, $password);
+ChromePhp::log('cambio en php.index');
+// Check connection
+                                                if (!$conn) {
+                                                    die("Connection failed: " . mysqli_connect_error());
+                                                    ChromePhp::log('no se pudo conectar a la bd');
+                                                }
+                                                echo "Connected successfully";
                                                 buscarUltimos();
                                                 ?>                                                
                                             </tbody>
